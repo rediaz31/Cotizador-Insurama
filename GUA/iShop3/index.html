@@ -1292,93 +1292,115 @@
     }
 
     .motor-a .coverage-card {
-      border-radius: 20px;
+      --card-border: rgba(191, 144, 37, 0.45);
+      --card-shadow: rgba(168, 125, 29, 0.24);
+      --header-grad: linear-gradient(135deg, #f2d16b 0%, #c89a2a 54%, #8d6b16 100%);
+      --accent-bg: #8d6b16;
+      --accent-ring: rgba(141, 107, 22, 0.32);
+      --accent-soft: rgba(216, 172, 61, 0.14);
+      --highlight-border: rgba(166, 123, 23, 0.5);
+      --text-strong: #7d5f15;
+      border-radius: 24px;
       overflow: hidden;
       background: #fff;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-      transition: box-shadow 0.15s, border-color 0.15s;
+      border: 1.5px solid var(--card-border);
+      box-shadow: 0 8px 32px var(--card-shadow);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
-    .motor-a .coverage-card.featured {
-      border-color: rgba(254, 80, 0, 0.35);
-      box-shadow: 0 8px 30px rgba(254, 80, 0, 0.14);
+    .motor-a .coverage-card:hover {
+      transform: translateY(-4px) scale(1.012);
+    }
+
+    .motor-a .coverage-card.is-platinum {
+      --card-border: rgba(141, 151, 167, 0.4);
+      --card-shadow: rgba(115, 125, 142, 0.24);
+      --header-grad: linear-gradient(135deg, #dde2ea 0%, #a5afbf 55%, #7d889a 100%);
+      --accent-bg: #667285;
+      --accent-ring: rgba(102, 114, 133, 0.32);
+      --accent-soft: rgba(182, 191, 206, 0.16);
+      --highlight-border: rgba(130, 145, 166, 0.46);
+      --text-strong: #4e5d73;
     }
 
     .motor-a .coverage-header {
-      padding: 20px 20px 18px;
+      background: var(--header-grad);
+      padding: 16px 18px;
       color: #fff;
     }
 
-    .motor-a .header-todoriesgo {
-      background: linear-gradient(135deg, #FE5000, #c23e00);
-    }
-
-    .motor-a .header-robo {
-      background: linear-gradient(135deg, #2b2b2b, #0a0a0a);
-    }
-
-    .motor-a .header-danos {
-      background: linear-gradient(135deg, #3a5a78, #22364a);
-    }
-
-    .motor-a .header-rotura {
-      background: linear-gradient(135deg, #5f3a78, #3c244a);
-    }
-
-    .motor-a .coverage-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 11px;
-      background: rgba(255, 255, 255, 0.18);
+    .motor-a .coverage-logo-wrap {
       display: flex;
-      align-items: center;
       justify-content: center;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
+    }
+
+    .motor-a .coverage-logo {
+      width: 100%;
+      max-width: 210px;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.25));
+    }
+
+    .motor-a .coverage-card.is-platinum .coverage-logo {
+      max-width: 190px;
     }
 
     .motor-a .coverage-title {
-      font-size: 16px;
-      font-weight: 700;
+      color: rgba(255, 255, 255, 0.95);
+      font-weight: 600;
+      font-size: 15px;
+      overflow-wrap: anywhere;
     }
 
     .motor-a .coverage-subtitle {
-      font-size: 10.5px;
-      font-weight: 600;
-      letter-spacing: 0.03em;
+      color: rgba(255, 249, 230, 0.9);
+      font-size: 10px;
       text-transform: uppercase;
-      opacity: 0.75;
+      letter-spacing: 0.1em;
       margin-top: 3px;
+      overflow-wrap: anywhere;
+    }
+
+    .motor-a .coverage-card.is-platinum .coverage-subtitle {
+      color: rgba(241, 245, 255, 0.9);
     }
 
     .motor-a .coverage-flag {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      margin-top: 14px;
-      background: rgba(255, 255, 255, 0.18);
-      padding: 6px 12px;
+      gap: 5px;
+      margin-top: 12px;
+      background: var(--accent-bg);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 500;
+      padding: 5px 12px;
       border-radius: 999px;
-      font-size: 10.5px;
-      font-weight: 700;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     .motor-a .coverage-terms {
-      padding: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
     .motor-a label.coverage-term-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #f5f5f7;
+      gap: 10px;
+      background: #f8f8f8;
       border: 1.5px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 13px 15px;
-      margin-bottom: 8px;
+      border-radius: 14px;
+      padding: 12px 14px;
       cursor: pointer;
-      transition: border-color 0.15s;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
     }
 
     .motor-a label.coverage-term-row:last-child {
@@ -1389,59 +1411,122 @@
       display: none;
     }
 
-    .motor-a label.coverage-term-row:has(input:checked) {
-      border-color: #FE5000;
-      background: #fff5ef;
+    .motor-a label.coverage-term-row.is-highlight {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, var(--accent-soft) 100%);
+      border: 2px solid var(--highlight-border);
+      padding: 14px 16px;
+      box-shadow: 0 10px 22px var(--card-shadow);
+      transform: translateY(-2px) scale(1.01);
     }
 
+    .motor-a label.coverage-term-row:has(input:checked),
     .motor-a label.coverage-term-row.is-selected {
-      border-color: #FE5000;
-      background: #fff5ef;
+      border-color: var(--highlight-border);
+      box-shadow: 0 0 0 2px var(--accent-ring);
     }
 
     .motor-a .coverage-card.is-active {
-      border-color: rgba(254, 80, 0, 0.35);
-      box-shadow: 0 8px 30px rgba(254, 80, 0, 0.14);
+      box-shadow: 0 12px 40px var(--card-shadow), 0 0 0 2px var(--accent-ring);
     }
 
     .motor-a .term-left {
       display: flex;
       flex-direction: column;
       gap: 4px;
+      min-width: 0;
     }
 
     .motor-a .term-months {
-      font-size: 13.5px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-strong);
+      letter-spacing: 0.01em;
+    }
+
+    .motor-a .coverage-term-row.is-highlight .term-months {
+      font-size: 13px;
+      font-weight: 700;
     }
 
     .motor-a .term-badge {
-      font-size: 10px;
+      font-size: 8px;
       font-weight: 700;
-      color: #FE5000;
-      letter-spacing: 0.03em;
+      color: #fff;
+      background: var(--accent-bg);
+      margin-top: 4px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      line-height: 1;
     }
 
     .motor-a .term-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
       text-align: right;
+      min-width: 0;
+      flex-shrink: 0;
     }
 
     .motor-a .term-monthly {
       font-size: 17px;
       font-weight: 700;
+      color: var(--text-strong);
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .motor-a .coverage-term-row.is-highlight .term-monthly {
+      font-size: 19px;
     }
 
     .motor-a .term-monthly small {
-      font-size: 11px;
-      font-weight: 500;
-      color: #818181;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-strong);
     }
 
     .motor-a .term-total {
       display: block;
       font-size: 10.5px;
-      color: #818181;
+      color: var(--text-strong);
       margin-top: 2px;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 420px) {
+      .motor-a .coverage-terms {
+        padding: 12px;
+      }
+
+      .motor-a label.coverage-term-row {
+        padding: 10px 11px;
+      }
+
+      .motor-a label.coverage-term-row.is-highlight {
+        padding: 12px 13px;
+      }
+
+      .motor-a .term-monthly {
+        font-size: 16px;
+      }
+
+      .motor-a .coverage-term-row.is-highlight .term-monthly {
+        font-size: 18px;
+      }
+
+      .motor-a .term-months {
+        font-size: 11px;
+      }
+
+      .motor-a .coverage-term-row.is-highlight .term-months {
+        font-size: 12px;
+      }
     }
 
     .motor-a .no-coverage-btn {
@@ -2311,11 +2396,16 @@
 
     function buildCoverageCardHtml(meta, termsData) {
       var isFeatured = !!meta.featured;
+      var cardClass = isFeatured ? 'is-platinum' : 'is-gold';
+      var logoSrc = isFeatured ? 'img/iShop Care Platinum II.png' : 'img/iShop Care Gold II.png';
+      var logoAlt = isFeatured ? 'Logo iShop Care II' : 'Logo iShop Care Garantia Extendia II';
+
       var rows = PLAN_TERMS.filter(function (term) {
         return termsData[term] !== undefined && termsData[term] !== null;
       }).map(function (term) {
-        var badge = (term === 24 && isFeatured) ? '<span class="term-badge">RECOMENDADO</span>' : '';
-        return '<label class="coverage-term-row">'
+        var isHighlight = term === 24;
+        var badge = isHighlight ? '<span class="term-badge">RECOMENDADA</span>' : '';
+        return '<label class="coverage-term-row ' + (isHighlight ? 'is-highlight' : '') + '">'
           + '<input type="radio" name="coverage" value="' + meta.key + ':' + term + '">'
           + '<div class="term-left"><span class="term-months">' + term + ' meses</span>' + badge + '</div>'
           + '<div class="term-right"><span class="term-monthly">Q0.00<small>/mes</small></span><span class="term-total">Total: Q0.00</span></div>'
@@ -2324,18 +2414,10 @@
 
       if (!rows) return '';
 
-      var icon = meta.headerClass === 'header-robo'
-        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="4" y="10" width="16" height="10" rx="2" /><path d="M8 10V7a4 4 0 018 0v3" /></svg>'
-        : meta.headerClass === 'header-danos'
-          ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M12 2v6M12 16v6M4.9 4.9l4.2 4.2M14.9 14.9l4.2 4.2M2 12h6M16 12h6M4.9 19.1l4.2-4.2M14.9 9.1l4.2-4.2" /></svg>'
-          : meta.headerClass === 'header-rotura'
-            ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M5 5h14v14H5z"/><path d="M8 8l8 8"/></svg>'
-            : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z" /></svg>';
-
       var featureFlag = isFeatured ? '<div class="coverage-flag">★ Más completo</div>' : '';
-      return '<div class="coverage-card ' + (isFeatured ? 'featured' : '') + '" data-plan="' + meta.key + '">'
-        + '<div class="coverage-header ' + meta.headerClass + '">'
-        + '<div class="coverage-icon">' + icon + '</div>'
+      return '<div class="coverage-card ' + cardClass + ' ' + (isFeatured ? 'recommended-pulse' : '') + '" data-plan="' + meta.key + '">'
+        + '<div class="coverage-header">'
+        + '<div class="coverage-logo-wrap"><img class="coverage-logo" src="' + logoSrc + '" alt="' + logoAlt + '"></div>'
         + '<div class="coverage-title">' + meta.title + '</div>'
         + '<div class="coverage-subtitle">' + meta.subtitle + '</div>'
         + featureFlag
@@ -2730,6 +2812,17 @@
         coverageGrid.addEventListener('change', function (event) {
           var target = event.target;
           if (!target || target.name !== 'coverage') return;
+
+          var termPart = Number((target.value || '').split(':')[1]);
+          var plazoSelect = document.getElementById('plazo');
+          if (plazoSelect && plazoSelect.value !== 'contado' && termPart > 0) {
+            var hasOption = Array.prototype.some.call(plazoSelect.options, function (opt) {
+              return Number(opt.value) === termPart;
+            });
+            if (hasOption && Number(plazoSelect.value) !== termPart) {
+              plazoSelect.value = String(termPart);
+            }
+          }
 
           selectedCoverageValue = target.value;
           document.getElementById('no-coverage-btn').classList.remove('active');
