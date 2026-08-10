@@ -1285,62 +1285,6 @@
       cursor: pointer;
     }
 
-    .motor-a .garantia-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      background: #f5f5f7;
-      border: 1.5px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 14px 16px;
-    }
-
-    .motor-a .garantia-row:has(input:checked) {
-      border-color: #FE5000;
-      background: #fff5ef;
-    }
-
-    .motor-a .garantia-row .left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 14px;
-    }
-
-    .motor-a .garantia-row .price {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 2px;
-      font-weight: 700;
-      font-size: 14px;
-      white-space: nowrap;
-      text-align: right;
-    }
-
-    .motor-a .garantia-row .price-main {
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 1;
-      color: #FE5000;
-      letter-spacing: -0.02em;
-    }
-
-    .motor-a .garantia-row .price-main small {
-      font-size: 11px;
-      font-weight: 600;
-      color: #818181;
-      margin-left: 3px;
-    }
-
-    .motor-a .garantia-row .price-sub {
-      font-size: 10px;
-      font-weight: 500;
-      color: #9ca3af;
-      line-height: 1.15;
-    }
-
     .motor-a .coverage-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -1880,34 +1824,15 @@
           <div class="section">
             <div class="step-label"><span class="n">4</span>Forma de pago</div>
             <select id="plazo">
-              <option value="contado">Al contado</option>
-              <option value="3">3 meses</option>
-              <option value="6">6 meses</option>
-              <option value="9">9 meses</option>
+              <option value="contado">Contado</option>
               <option value="12" selected>12 meses</option>
-              <option value="15">15 meses</option>
-              <option value="18">18 meses</option>
-              <option value="21">21 meses</option>
               <option value="24">24 meses</option>
+              <option value="36">36 meses</option>
             </select>
           </div>
 
           <div class="section">
-            <div class="step-label"><span class="n">5</span>Garantía extendida</div>
-            <label class="garantia-row">
-              <span class="left">
-                <input type="checkbox" id="garantia" checked>
-                Cubre daños de fábrica más allá del período estándar.
-              </span>
-              <span class="price" id="garantia-price">
-                <span class="price-main"></span>
-                <span class="price-sub"></span>
-              </span>
-            </label>
-          </div>
-
-          <div class="section">
-            <div class="step-label"><span class="n">6</span>Plan de seguro</div>
+            <div class="step-label"><span class="n">5</span>Plan de seguro</div>
             <div class="coverage-grid" id="coverage-grid"></div>
             <input type="radio" name="coverage" value="ninguno" id="coverage-none" style="display:none">
             <button type="button" class="no-coverage-btn" id="no-coverage-btn">Continuar sin seguro</button>
@@ -2298,17 +2223,6 @@
     //   roboHurto: DB.watch.roboHurto
     // };
 
-    const EXT_GARANTIA = {
-      ranges: [[0, 200], [201, 4100], [4101, 8100], [8101, 12200], [12201, 16300], [16301, 40000]],
-      celulares: {
-        24: [118.98,237.95,297.44,356.93,416.41,446.16]
-      },
-      resto: {
-        ranges: [[0, 400], [401, 800], [801, 2000], [2001, 4100], [4101, 8100], [8101, 12200], [12201, 16300], [16301, 20300], [20301, 24400], [24401, 40000]],
-        36: [35.69,59.49,118.98,237.95,297.44,356.93,416.41,446.16,505.65,654.37]
-      }
-    };
-
     /**********************
      CONSTANTES
     **********************/
@@ -2345,12 +2259,11 @@
       ]
     };
 
-    const PLAN_TERMS = [36, 24, 18, 12];
+    const PLAN_TERMS = [36, 24, 12];
 
     /**********************
      TABLAS
     **********************/
-    let garantiaPriceCurrent = 0;
     let rangeMessage = 'Ingresa el precio del dispositivo para detectar el rango.';
     let accordionReady = false;
     let currentCoverageTable = {};
@@ -2393,56 +2306,6 @@
       return {
         plan: parts[0] || 'ninguno',
         term: parts[1] ? Number(parts[1]) : null
-      };
-    }
-
-    function getWarrantyGroupByDevice(deviceKey) {
-      return deviceKey === 'iphone' ? 'celulares' : 'resto';
-    }
-
-    function getGarantiaExtendidaValue(deviceKey, priceValue) {
-      var groupKey = getWarrantyGroupByDevice(deviceKey);
-      var groupTable = EXT_GARANTIA[groupKey];
-      if (!groupTable) return 0;
-
-      var ranges = groupTable.ranges || EXT_GARANTIA.ranges;
-      var rangeIdx = findRange(ranges, priceValue);
-      if (rangeIdx < 0) return 0;
-
-      var primaryTerm = groupKey === 'celulares' ? 24 : 36;
-      var fallbackTerm = groupKey === 'celulares' ? 12 : null;
-      var list = groupTable[primaryTerm] || (fallbackTerm ? groupTable[fallbackTerm] : null);
-      if (!list) return 0;
-      var value = list[rangeIdx];
-      return value == null ? 0 : Number(value);
-    }
-
-    function getGarantiaDisplayInfo(paymentInfo) {
-      var device = getSelectedCategory();
-      var devicePrice = Number(document.getElementById('device-price').value) || 0;
-      var garantiaChecked = document.getElementById('garantia').checked;
-      var groupKey = getWarrantyGroupByDevice(device);
-      var groupTable = EXT_GARANTIA[groupKey];
-      if (!garantiaChecked || !device || !devicePrice || !groupTable) {
-        return { ready: false, total: 0, monthly: 0, headerText: 'Pendiente' };
-      }
-
-      var ranges = groupTable.ranges || EXT_GARANTIA.ranges;
-      var rangeIdx = findRange(ranges, devicePrice);
-      if (rangeIdx < 0) {
-        return { ready: false, total: 0, monthly: 0, headerText: 'Pendiente' };
-      }
-
-      var total = getGarantiaExtendidaValue(device, devicePrice);
-      var monthly = (!paymentInfo.isContado && paymentInfo.months > 0) ? (total / paymentInfo.months) : total;
-
-      return {
-        ready: true,
-        total: total,
-        monthly: monthly,
-        headerText: document.getElementById('garantia').checked
-          ? ('Si - ' + fmt(paymentInfo.isContado ? total : monthly) + (paymentInfo.isContado ? '' : '/mes'))
-          : 'No'
       };
     }
 
@@ -2552,7 +2415,6 @@
 
     function updateCoverageValuesUI() {
       var paymentInfo = getPaymentInfo();
-      var garantiaInfo = getGarantiaDisplayInfo(paymentInfo);
       document.querySelectorAll('input[name="coverage"]').forEach(function (input) {
         if (input.value === 'ninguno') return;
         var parts = input.value.split(':');
@@ -2562,26 +2424,17 @@
         if (!row) return;
 
         var total = currentCoverageTable[plan] && currentCoverageTable[plan][term] ? currentCoverageTable[plan][term] : 0;
-        var monthlyByPayment = paymentInfo.months > 0 ? (total / paymentInfo.months) : 0;
+        var monthlyByTerm = term > 0 ? (total / term) : 0;
         var monthlyEl = row.querySelector('.term-monthly');
         var totalEl = row.querySelector('.term-total');
 
         if (monthlyEl) {
           monthlyEl.innerHTML = paymentInfo.isContado
             ? fmt(total)
-            : (fmt(monthlyByPayment) + '<small>/mes</small>');
+            : (fmt(monthlyByTerm) + '<small>/mes</small>');
         }
         if (totalEl) totalEl.textContent = 'Total: ' + fmt(total);
       });
-
-      var garantiaPriceEl = document.getElementById('garantia-price');
-      if (garantiaPriceEl) {
-        garantiaPriceEl.innerHTML = garantiaInfo.ready
-          ? (paymentInfo.isContado
-            ? '<span class="price-main">' + fmt(garantiaInfo.total) + '</span><span class="price-sub">Total: ' + fmt(garantiaInfo.total) + '</span>'
-            : '<span class="price-main">' + fmt(garantiaInfo.monthly) + '<small>/mes</small></span><span class="price-sub">Total: ' + fmt(garantiaInfo.total) + '</span>')
-          : '<span class="price-main"></span><span class="price-sub"></span>';
-      }
     }
 
     function getCoverageSummaryText() {
@@ -2602,16 +2455,12 @@
       var devicePrice = Number(document.getElementById('device-price').value) || 0;
       var accessoriesPrice = Number(document.getElementById('accessories-price').value) || 0;
       var plazoText = document.getElementById('plazo').selectedOptions[0].textContent.trim();
-      var garantiaChecked = document.getElementById('garantia').checked;
-      var paymentInfo = getPaymentInfo();
-      var garantiaInfo = getGarantiaDisplayInfo(paymentInfo);
 
       var summaryMap = {
         categoria: categoryText,
         dispositivo: devicePrice > 0 ? fmt(devicePrice) : 'Pendiente',
         accesorios: fmt(accessoriesPrice),
         pago: plazoText,
-        garantia: garantiaChecked ? garantiaInfo.headerText : 'No',
         cobertura: getCoverageSummaryText()
       };
 
@@ -2659,13 +2508,12 @@
     function setupAccordionFlow() {
       if (accordionReady) return;
 
-      var stepKeys = ['categoria', 'dispositivo', 'accesorios', 'pago', 'garantia', 'cobertura'];
+      var stepKeys = ['categoria', 'dispositivo', 'accesorios', 'pago', 'cobertura'];
       var stepTitles = {
         categoria: 'Categoria',
         dispositivo: 'Precio',
         accesorios: 'Accesorios',
         pago: 'Forma de pago',
-        garantia: 'Garantia',
         cobertura: 'Cobertura'
       };
 
@@ -2725,7 +2573,6 @@
 
       currentCoverageTable = {};
       currentCoverageMeta = {};
-      garantiaPriceCurrent = 0;
 
       if (!devicePrice || !data || !data.ranges) {
         rangeMessage = 'Ingresa el precio del dispositivo para detectar el rango.';
@@ -2761,8 +2608,27 @@
         }
       });
 
-      garantiaPriceCurrent = getGarantiaExtendidaValue(device, devicePrice);
       renderCoverageGrid(preferredCoverageValue);
+    }
+
+    function syncSelectedCoverageToPaymentTerm(plazo) {
+      var selected = document.querySelector('input[name="coverage"]:checked');
+      if (!selected || selected.value === 'ninguno') return;
+
+      var selectedPlan = selected.value.split(':')[0];
+      var candidate = document.querySelector('input[name="coverage"][value="' + selectedPlan + ':' + plazo + '"]');
+      if (!candidate) {
+        candidate = Array.prototype.find.call(
+          document.querySelectorAll('#coverage-grid input[name="coverage"]'),
+          function (input) { return input.value.endsWith(':' + plazo); }
+        ) || null;
+      }
+
+      if (candidate) {
+        candidate.checked = true;
+        selectedCoverageValue = candidate.value;
+        syncCoverageSelectionVisual();
+      }
     }
 
     function calc() {
@@ -2777,30 +2643,29 @@
       var selectedBefore = document.querySelector('input[name="coverage"]:checked');
       var preferredCoverageValue = selectedBefore ? selectedBefore.value : selectedCoverageValue;
       hydrateCoverageTables(preferredCoverageValue);
+      if (!isContado) {
+        syncSelectedCoverageToPaymentTerm(plazo);
+      }
       updateCoverageValuesUI();
       document.getElementById('range-indicator').textContent = rangeMessage;
 
       var selectedCoverage = getSelectedCoverage();
       var plan = selectedCoverage.plan;
-      var term = selectedCoverage.term || 12;
+      var term = isContado ? (selectedCoverage.term || 12) : plazo;
 
-      var garantia = document.getElementById('garantia').checked;
-      var garantiaPrice = garantia ? garantiaPriceCurrent : 0;
       var coverageTotal = (plan === 'ninguno' || !currentCoverageTable[plan]) ? 0 : (currentCoverageTable[plan][term] || 0);
 
       var deviceTotal = devicePrice + accessoriesPrice;
-      var coberturaTotal = garantiaPrice + coverageTotal;
+      var coberturaTotal = coverageTotal;
 
-      var garantiaMonthly = 0;
       var coverageMonthly = 0;
       if (!isContado) {
-        garantiaMonthly = garantia ? (garantiaPrice / plazo) : 0;
         coverageMonthly = coverageTotal > 0 ? (coverageTotal / plazo) : 0;
       }
 
       var lineSubtitles = {
         'Equipo': 'Dispositivo + Accesorios',
-        'Cobertura': 'Garantía + Seguro'
+        'Cobertura': 'Seguro'
       };
 
       var lines = [];
@@ -2809,7 +2674,7 @@
         lines.push({ name: 'Equipo', amount: equipoAmount, suffix: isContado ? ' Pago Único' : '/mes' });
       }
       if (coberturaTotal > 0) {
-        var coberturaAmount = isContado ? coberturaTotal : (coverageMonthly + garantiaMonthly);
+        var coberturaAmount = isContado ? coberturaTotal : coverageMonthly;
         lines.push({ name: 'Cobertura', amount: coberturaAmount, suffix: isContado ? ' Pago Único' : '/mes' });
       }
 
