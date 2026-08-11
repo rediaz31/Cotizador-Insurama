@@ -2506,14 +2506,14 @@
         if (!row) return;
 
         var total = currentCoverageTable[plan] && currentCoverageTable[plan][term] ? currentCoverageTable[plan][term] : 0;
-        var monthlyByTerm = term > 0 ? (total / term) : 0;
+        var monthlyByPayment = paymentInfo.months > 0 ? (total / paymentInfo.months) : 0;
         var monthlyEl = row.querySelector('.term-monthly');
         var totalEl = row.querySelector('.term-total');
 
         if (monthlyEl) {
           monthlyEl.innerHTML = paymentInfo.isContado
             ? fmt(total)
-            : (fmt(monthlyByTerm) + '<small>/mes</small>');
+            : (fmt(monthlyByPayment) + '<small>/mes</small>');
         }
         if (totalEl) totalEl.textContent = 'Total: ' + fmt(total);
       });
