@@ -1113,6 +1113,21 @@
       animation: pulse-glow 3s infinite;
     }
 
+    .featured-card {
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (min-width: 1024px) {
+      .reveal.visible.featured-card {
+        transform: scale(1.04);
+      }
+
+      .reveal.visible.featured-card.card-hover:hover {
+        transform: translateY(-4px) scale(1.055);
+      }
+    }
+
     .fade-in {
       animation: fadeIn 0.4s ease;
     }
@@ -1616,24 +1631,24 @@
 
     const DB = {
       iphone: {
-        ranges: [[250, 450], [450, 650], [650, 900], [900, 1250], [1250, 1625], [1625, 2000], [2000, 2375], [2375, 3000]],
+        ranges: [[250,450],[450,650],[650,900],[900,1250],[1250,1625],[1625,2000],[2000,2375],[2375,3000],[3000,3700],[3700,4800]],
         danoAccidental: {
-          12: [43.00, 65.00, 93.00, 100.00, 143.00, 179.00, 218.00, 265.00],
-          18: [79.00, 114.00, 154.00, 168.00, 228.00, 283.00, 340.00, 405.00],
-          24: [92.00, 133.00, 183.00, 200.00, 270.00, 332.00, 400.00, 475.00]
+          12: [43.00,65.00,93.00,100.00,143.00,179.00,218.00,265.00,298.00,370.00],
+          18: [79.00,114.00,154.00,168.00,228.00,283.00,340.00,405.00,462.00,571.00],
+          24: [183.00,200.00,270.00,332.00,400.00,475.00,542.00,666.00]
         },
         skus: {
-          12: ['SKU - 0000000001', 'SKU - 0000000004', 'SKU - 0000000007', 'SKU - 0000000010', 'SKU - 0000000013', 'SKU - 0000000016', 'SKU - 0000000019', 'SKU - 0000000022'],
-          18: ['SKU - 0000000002', 'SKU - 0000000005', 'SKU - 0000000008', 'SKU - 0000000011', 'SKU - 0000000014', 'SKU - 0000000017', 'SKU - 0000000020', 'SKU - 0000000023'],
-          24: ['SKU - 0000000003', 'SKU - 0000000006', 'SKU - 0000000009', 'SKU - 0000000012', 'SKU - 0000000015', 'SKU - 0000000018', 'SKU - 0000000021', 'SKU - 0000000024']
+          12: ['SKU - 0000000001', 'SKU - 0000000004', 'SKU - 0000000007', 'SKU - 0000000010', 'SKU - 0000000013', 'SKU - 0000000016', 'SKU - 0000000019', 'SKU - 0000000022', 'SKU - 0000000167', 'SKU - 0000000170'],
+          18: ['SKU - 0000000002', 'SKU - 0000000005', 'SKU - 0000000008', 'SKU - 0000000011', 'SKU - 0000000014', 'SKU - 0000000017', 'SKU - 0000000020', 'SKU - 0000000023', 'SKU - 0000000168', 'SKU - 0000000171'],
+          24: ['SKU - 0000000003', 'SKU - 0000000006', 'SKU - 0000000009', 'SKU - 0000000012', 'SKU - 0000000015', 'SKU - 0000000018', 'SKU - 0000000021', 'SKU - 0000000024', 'SKU - 0000000169', 'SKU - 0000000172']
         }
       },
       ipad: {
-        ranges: [[250, 450], [450, 650], [650, 900], [900, 1250], [1250, 1625], [1625, 2000], [2000, 2375], [2375, 2625], [2625, 2875], [2875, 3125], [3125, 3500], [3500, 3875], [3875, 5000]],
+        ranges: [[250,450],[450,650],[650,900],[900,1250],[1250,1625],[1625,2000],[2000,2375],[2375,2625],[2625,2875],[2875,3125],[3125,3500],[3500,3875],[3875,5000]],
         danoAccidental: {
-          12: [25.00, 40.00, 58.00, 68.00, 85.00, 111.00, 133.00, 150.00, 165.00, 183.00, 200.00, 222.00, 286.00],
-          18: [55.00, 75.00, 105.00, 125.00, 154.00, 190.00, 222.00, 247.00, 272.00, 297.00, 334.00, 364.00, 454.00],
-          24: [68.00, 93.00, 125.00, 152.00, 184.00, 219.00, 263.00, 293.00, 320.00, 350.00, 392.00, 427.00, 537.00]
+          12: [25.00,40.00,58.00,68.00,85.00,111.00,133.00,150.00,165.00,183.00,200.00,222.00,286.00],
+          18: [55.00,75.00,105.00,125.00,154.00,190.00,222.00,247.00,272.00,297.00,334.00,364.00,454.00],
+          24: [68.00,93.00,125.00,152.00,184.00,219.00,262.50,292.50,319.50,349.50,392.00,427.00,537.00]
         },
         skus: {
           12: ['SKU - 0000000025', 'SKU - 0000000028', 'SKU - 0000000031', 'SKU - 0000000034', 'SKU - 0000000037', 'SKU - 0000000040', 'SKU - 0000000043', 'SKU - 0000000046', 'SKU - 0000000049', 'SKU - 0000000052', 'SKU - 0000000055', 'SKU - 0000000058', 'SKU - 0000000061'],
@@ -1642,11 +1657,11 @@
         }
       },
       mac: {
-        ranges: [[500, 800], [800, 1000], [1000, 1500], [1500, 2000], [2000, 2500], [2500, 4250], [4250, 5000], [5000, 6250]],
+        ranges: [[500,800],[800,1000],[1000,1500],[1500,2000],[2000,2500],[2500,4250],[4250,5000],[5000,6250]],
         danoAccidental: {
-          12: [47.00, 61.00, 79.00, 129.00, 154.00, 197.00, 279.00, 340.00],
-          18: [90.00, 110.00, 140.00, 215.00, 252.00, 317.00, 444.00, 529.00],
-          24: [105.00, 135.00, 167.00, 259.00, 298.00, 370.00, 522.00, 617.00]
+          12: [47.00,61.00,79.00,129.00,154.00,197.00,279.00,340.00],
+          18: [90.00,110.00,140.00,215.00,252.00,317.00,444.00,529.00],
+          24: [105.00,135.00,167.00,259.00,297.50,369.50,522.00,617.00]
         },
         skus: {
           12: ['SKU - 0000000064', 'SKU - 0000000067', 'SKU - 0000000070', 'SKU - 0000000073', 'SKU - 0000000076', 'SKU - 0000000079', 'SKU - 0000000082', 'SKU - 0000000085'],
@@ -1655,11 +1670,11 @@
         }
       },
       watch: {
-        ranges: [[250, 450], [450, 650], [650, 900], [900, 1150], [1150, 1400]],
+        ranges: [[250,450],[450,650],[650,900],[900,1150],[1150,1400]],
         danoAccidental: {
-          12: [29.00, 47.00, 65.00, 68.00, 79.00],
-          18: [60.00, 85.00, 115.00, 125.00, 140.00],
-          24: [73.00, 98.00, 140.00, 147.00, 167.00]
+          12: [73.00,98.00,140.00,147.00,167.00],
+          18: [60.00,85.00,115.00,125.00,140.00],
+          24: [73.00,98.00,140.00,147.00,167.00]
         },
         skus: {
           12: ['SKU - 0000000088', 'SKU - 0000000091', 'SKU - 0000000094', 'SKU - 0000000097', 'SKU - 0000000100'],
@@ -1668,11 +1683,11 @@
         }
       },
       airpods: {
-        ranges: [[0, 100], [100, 200], [200, 400], [400, 600], [600, 800], [800, 1000]],
+        ranges: [[0,100],[100,200],[200,400],[400,600],[600,800],[800,1000]],
         danoAccidental: {
-          12: [8.00, 13.00, 20.00, 30.00, 39.00, 49.00],
-          18: [16.00, 27.00, 48.00, 69.00, 89.00, 103.00],
-          24: [20.00, 30.00, 54.00, 77.00, 100.00, 116.00]
+          12: [8.00,13.00,20.00,30.00,39.00,49.00],
+          18: [16.00,27.00,48.00,69.00,89.00,103.00],
+          24: [20.00,30.00,54.00,77.00,100.00,116.00]
         },
         skus: {
           12: ['SKU - 0000000103', 'SKU - 0000000106', 'SKU - 0000000109', 'SKU - 0000000112', 'SKU - 0000000115', 'SKU - 0000000118'],
@@ -1681,11 +1696,11 @@
         }
       },
       accesorios: {
-        ranges: [[0, 50], [50, 100], [100, 150], [150, 200], [200, 300], [300, 500], [500, 1000], [1000, 1500]],
+        ranges: [[0,50],[50,100],[100,150],[150,200],[200,300],[300,500],[500,1000],[1000,1500]],
         danoAccidental: {
-          12: [5.00, 8.00, 11.00, 14.00, 19.00, 30.00, 66.00, 104.00],
-          18: [11.00, 19.00, 27.00, 34.00, 48.00, 77.00, 163.00, 250.00],
-          24: [12.00, 21.00, 30.00, 39.00, 55.00, 88.00, 186.00, 286.00]
+          12: [5.00,8.00,11.00,14.00,19.00,30.00,66.00,104.00],
+          18: [11.00,19.00,27.00,34.00,48.00,77.00,163.00,250.00],
+          24: [12.00,21.00,30.00,39.00,55.00,88.00,186.00,286.00]
         },
         skus: {
           12: ['SKU - 0000000121', 'SKU - 0000000124', 'SKU - 0000000127', 'SKU - 0000000130', 'SKU - 0000000133', 'SKU - 0000000136', 'SKU - 0000000139', 'SKU - 0000000142'],
@@ -1696,17 +1711,18 @@
     };
 
     const EXT_GARANTIA = {
-      ranges: [[0, 50], [50, 100], [100, 250], [250, 500], [500, 1000], [1000, 1500], [1500, 2000], [2000, 2500], [2500, 3000], [3000, 5001]],
+      ranges: [[0,250],[250,500],[500,1000],[1000,1500],[1500,2000],[2000,2500],[2500,3000],[3000,3500],[3500,4000],[4000,4500]],
       celulares: {
-        12: [null, null, 19.00, 37.00, 46.00, 55.00, 64.00, 69.00, null, null],
-        24: [null, null, 28.00, 55.00, 69.00, 83.00, 96.00, 103.00, null, null],
+        12: [19.00,37.00,46.00,55.00,64.00,69.00,77.00,90.00,102.00,115.00],
+        24: [28.00,55.00,69.00,83.00,96.00,103.00,115.00,134.00,153.00,172.00],
         skus: {
-          12: [null, null, 'SKU - 0000000147', 'SKU - 0000000150', 'SKU - 0000000153', 'SKU - 0000000156', 'SKU - 0000000159', 'SKU - 0000000162', null, null],
-          24: [null, null, 'SKU - 0000000148', 'SKU - 0000000151', 'SKU - 0000000154', 'SKU - 0000000157', 'SKU - 0000000160', 'SKU - 0000000163', null, null]
+          12: ['SKU - 0000000173', 'SKU - 0000000175', 'SKU - 0000000147', 'SKU - 0000000150', 'SKU - 0000000153', 'SKU - 0000000156', 'SKU - 0000000159', 'SKU - 0000000162', 'SKU - 0000000177', 'SKU - 0000000179'],
+          24: ['SKU - 0000000174', 'SKU - 0000000176', 'SKU - 0000000148', 'SKU - 0000000151', 'SKU - 0000000154', 'SKU - 0000000157', 'SKU - 0000000160', 'SKU - 0000000163', 'SKU - 0000000178', 'SKU - 0000000180']
         }
       },
       resto: {
-        36: [9.00, 14.00, 28.00, 55.00, 69.00, 83.00, 96.00, 103.00, 117.00, 151.00],
+        ranges: [[0,50],[50,100],[100,250],[250,500],[500,1000],[1000,1500],[1500,2000],[2000,2500],[2500,3000],[3000,5000]],
+        36: [9.00,14.00,28.00,55.00,69.00,83.00,96.00,103.00,117.00,151.00],
         skus: {
           36: ['SKU - 0000000145', 'SKU - 0000000146', 'SKU - 0000000149', 'SKU - 0000000152', 'SKU - 0000000155', 'SKU - 0000000158', 'SKU - 0000000161', 'SKU - 0000000164', 'SKU - 0000000165', 'SKU - 0000000166']
         }
@@ -1747,18 +1763,105 @@
       'Garantía Extendida': { borderColor: 'rgba(180,83,9,0.2)', headerGrad: 'linear-gradient(135deg,#B45309 0%,#78350F 100%)', accentBg: '#92400E', lightBg: 'rgba(180,83,9,0.06)', highlightBorder: 'rgba(180,83,9,0.28)', iconColor: '#92400E', shadowColor: 'rgba(180,83,9,0.08)' }
     };
 
+    const SKU_ALT_TEXT = 'SKU de ejemplo · reemplazar por el código oficial';
+
+    // Texto alternativo por dispositivo, cobertura y plazo. {rango} se reemplaza por el rango de precio detectado.
+    const SKU_ALT_TEXTS = {
+      iphone: {
+        danos: {
+          12: 'Cobertura de daños por 12 meses'
+        },
+        proteccion: {
+          24: 'Cobertura de daños 24 meses (desde el día 1) Extiende tu garantia de Fabricante 12 meses',
+          18: 'Cobertura de daños 18 meses (desde el día 1) Extiende tu garantia de Fabricante 6 meses'
+        },
+        garantia: {
+          24: 'Extiende tu garantia de fabricante 24 meses',
+          12: 'Extiende tu garantia de fabricante 12 meses'
+        }
+      },
+      ipad: {
+        danos: {
+          12: 'Cobertura de daños por 12 meses'
+        },
+        proteccion: {
+          24: 'Cobertura de daños 24 meses (desde el día 1) Extiende tu garantia de Fabricante 12 meses',
+          18: 'Cobertura de daños 18 meses (desde el día 1) Extiende tu garantia de Fabricante 6 meses'
+        },
+        garantia: {
+          36: 'Extiende tu garantia de fabricante 36 meses'
+        }
+      },
+      mac: {
+        danos: {
+          12: 'Cobertura de daños por 12 meses'
+        },
+        proteccion: {
+          24: 'Cobertura de daños 24 meses (desde el día 1) Extiende tu garantia de Fabricante 12 meses',
+          18: 'Cobertura de daños 18 meses (desde el día 1) Extiende tu garantia de Fabricante 6 meses'
+        },
+        garantia: {
+          36: 'Extiende tu garantia de fabricante 36 meses'
+        }
+      },
+      watch: {
+        danos: {
+          12: 'Cobertura de daños por 12 meses'
+        },
+        proteccion: {
+          24: 'Cobertura de daños 24 meses (desde el día 1) Extiende tu garantia de Fabricante 12 meses',
+          18: 'Cobertura de daños 18 meses (desde el día 1) Extiende tu garantia de Fabricante 6 meses'
+        },
+        garantia: {
+          36: 'Extiende tu garantia de fabricante 36 meses'
+        }
+      },
+      airpods: {
+        danos: {
+          12: 'Cobertura de daños por 12 meses'
+        },
+        proteccion: {
+          24: 'Cobertura de daños 24 meses (desde el día 1) Extiende tu garantia de Fabricante 12 meses',
+          18: 'Cobertura de daños 18 meses (desde el día 1) Extiende tu garantia de Fabricante 6 meses'
+        },
+        garantia: {
+          36: 'Extiende tu garantia de fabricante 36 meses'
+        }
+      },
+      accesorios: {
+        danos: {
+          12: 'Cobertura de daños por 12 meses'
+        },
+        proteccion: {
+          24: 'Cobertura de daños 24 meses (desde el día 1) Extiende tu garantia de Fabricante 12 meses',
+          18: 'Cobertura de daños 18 meses (desde el día 1) Extiende tu garantia de Fabricante 6 meses'
+        },
+        garantia: {
+          36: 'Extiende tu garantia de fabricante 36 meses'
+        }
+      }
+    };
+
     const CARD_SVGS = {
       'Daños Accidentales': '<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>',
       'Protección de Daños + Garantía Extendida': '<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>',
       'Garantía Extendida': '<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>'
     };
 
+    function buildSkuAltText(deviceKey, range, coverageKey, months) {
+      var deviceTexts = SKU_ALT_TEXTS[deviceKey] || {};
+      var coverageTexts = deviceTexts[coverageKey] || {};
+      var template = coverageTexts[months] || SKU_ALT_TEXT;
+      var rangeLabel = (range && range.length >= 2) ? 'Rango $' + range[0] + ' - $' + range[1] : '';
+      return template.replace('{rango}', rangeLabel);
+    }
+
     function buildCard(title, desc, recommended, plans) {
       var t = CARD_THEMES[title] || CARD_THEMES['Daños Accidentales'];
       var svg = CARD_SVGS[title] || CARD_SVGS['Daños Accidentales'];
 
       var recBadge = recommended
-        ? '<div style="display:inline-flex;align-items:center;gap:5px;background:' + t.accentBg + ';color:white;font-size:10px;font-weight:500;padding:5px 12px;border-radius:20px;letter-spacing:0.08em;text-transform:uppercase;"><svg viewBox="0 0 24 24" fill="currentColor" width="10" height="10"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>Mas Completo</div>'
+        ? '<div style="display:inline-flex;align-items:center;gap:5px;background:#ffffff;color:' + t.accentBg + ';font-size:10px;font-weight:700;padding:5px 12px;border-radius:20px;letter-spacing:0.08em;text-transform:uppercase;box-shadow:0 2px 8px rgba(0,0,0,0.18);"><svg viewBox="0 0 24 24" fill="currentColor" width="10" height="10"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>Mas Completo</div>'
         : '';
 
       // Ahorro de la tarifa mas cara vs. pagar la tarifa anterior repetida durante el mismo plazo.
@@ -1789,16 +1892,18 @@
         var priceDisplay = showMonthly
           ? '<div style="text-align:right"><span style="font-size:20px;font-weight:600;color:' + priceColor + ';line-height:1">' + fmt(total) + '</span><div style="font-size:10px;color:#818181;margin-top:2px">' + fmt(monthly) + '/mes</div></div>'
           : '<div style="text-align:right"><span style="font-size:20px;font-weight:600;color:' + priceColor + ';line-height:1">' + fmt(total) + '</span></div>';
-        var highlight = isHighlight ? '<div style="font-size:10px;font-weight:500;color:' + t.iconColor + ';margin-top:2px;text-transform:uppercase;letter-spacing:0.06em">Recomendado</div>' : '';
-        var skuLine = p.sku ? '<div style="font-size:9px;color:#9ca3af;margin-top:4px;letter-spacing:0.02em">' + p.sku + '</div>' : '';
+        var highlight = isHighlight ? '<div style="font-size:10px;font-weight:700;color:#FE5000;margin-top:2px;text-transform:uppercase;letter-spacing:0.06em">Recomendado</div>' : '';
+        var skuAltLine = '<div style="font-size:10px;font-weight:600;color:#524C4A;margin-top:4px;letter-spacing:0.02em;line-height:1.3">' + (p.altText || SKU_ALT_TEXT) + '</div>';
+        var skuLine = p.sku ? '<div style="font-size:9px;color:#9ca3af;margin-top:2px;letter-spacing:0.02em">' + p.sku + '</div>' : '';
         var savingsBadge = (i === priciestIdx && savingsPct !== null && savingsPct > 0)
           ? '<div style="display:inline-flex;align-items:center;gap:3px;background:#16a34a;color:#fff;font-size:9px;font-weight:700;padding:3px 8px;border-radius:10px;letter-spacing:0.03em;margin-bottom:6px;">Ahorra ' + savingsPct + '%</div>'
           : '';
-        return '<div style="display:flex;align-items:center;justify-content:space-between;background:' + rowBg + ';border:1.5px solid ' + rowBorder + ';border-radius:12px;padding:12px 14px;"><div>' + savingsBadge + '<div style="font-size:12px;font-weight:500;color:#070200;letter-spacing:0.01em">' + periodLabel + '</div>' + highlight + skuLine + '</div>' + priceDisplay + '</div>';
+        return '<div style="display:flex;align-items:center;justify-content:space-between;background:' + rowBg + ';border:1.5px solid ' + rowBorder + ';border-radius:12px;padding:12px 14px;"><div>' + savingsBadge + '<div style="font-size:12px;font-weight:500;color:#070200;letter-spacing:0.01em">' + periodLabel + '</div>' + highlight + skuAltLine + skuLine + '</div>' + priceDisplay + '</div>';
       }).join('');
 
-      var extraClass = recommended ? 'recommended-pulse' : '';
-      return '<div class="reveal card-hover ' + extraClass + '" style="background:#fff;border:1.5px solid ' + t.borderColor + ';border-radius:24px;overflow:hidden;display:flex;flex-direction:column;height:100%;box-shadow:0 8px 32px ' + t.shadowColor + '">'
+      var extraClass = recommended ? 'recommended-pulse featured-card' : '';
+      var cardBorder = recommended ? '2px solid ' + t.accentBg : '1.5px solid ' + t.borderColor;
+      return '<div class="reveal card-hover ' + extraClass + '" style="background:#fff;border:' + cardBorder + ';border-radius:24px;overflow:hidden;display:flex;flex-direction:column;height:100%;box-shadow:0 8px 32px ' + t.shadowColor + '">'
         + '<div style="' + t.headerGrad.replace('linear-gradient', 'background:linear-gradient') + ';padding:20px 22px;">'
         + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:' + (recBadge ? '12px' : '0') + '">'
         + '<div style="display:flex;align-items:center;gap:12px;">'
@@ -1830,28 +1935,35 @@
         rangeInd.classList.remove('hidden');
         document.getElementById('rangeText').textContent = 'Rango detectado: $' + data.ranges[rangeIdx][0] + ' - $' + data.ranges[rangeIdx][1];
 
-        var egRangeIdx = findRange(EXT_GARANTIA.ranges, val);
+        var extGarantiaData = dev === 'iphone' ? EXT_GARANTIA.celulares : EXT_GARANTIA.resto;
+        var extGarantiaRanges = extGarantiaData.ranges || EXT_GARANTIA.ranges;
+        var egRangeIdx = findRange(extGarantiaRanges, val);
         var extGarantiaCard = null;
         if (egRangeIdx >= 0) {
+          var extRange = extGarantiaRanges[egRangeIdx];
           if (dev === 'iphone') {
             var eg12 = EXT_GARANTIA.celulares[12][egRangeIdx];
             var eg24 = EXT_GARANTIA.celulares[24][egRangeIdx];
             var egPlans = [];
-            if (eg24 !== null) egPlans.push({ m: 24, p: eg24, sku: EXT_GARANTIA.celulares.skus[24][egRangeIdx] });
-            if (eg12 !== null) egPlans.push({ m: 12, p: eg12, sku: EXT_GARANTIA.celulares.skus[12][egRangeIdx] });
+            if (eg24 !== null) egPlans.push({ m: 24, p: eg24, sku: EXT_GARANTIA.celulares.skus[24][egRangeIdx], altText: buildSkuAltText(dev, extRange, 'garantia', 24) });
+            if (eg12 !== null) egPlans.push({ m: 12, p: eg12, sku: EXT_GARANTIA.celulares.skus[12][egRangeIdx], altText: buildSkuAltText(dev, extRange, 'garantia', 12) });
             if (egPlans.length > 0) extGarantiaCard = buildCard('Garantía Extendida', 'Extension de garantia del fabricante', false, egPlans);
           } else {
             var eg36 = EXT_GARANTIA.resto[36][egRangeIdx];
-            if (eg36 !== null) extGarantiaCard = buildCard('Garantía Extendida', 'Extension de garantia del fabricante', false, [{ m: 36, p: eg36, sku: EXT_GARANTIA.resto.skus[36][egRangeIdx] }]);
+            if (eg36 !== null) extGarantiaCard = buildCard('Garantía Extendida', 'Extension de garantia del fabricante', false, [{ m: 36, p: eg36, sku: EXT_GARANTIA.resto.skus[36][egRangeIdx], altText: buildSkuAltText(dev, extRange, 'garantia', 36) }]);
           }
         }
 
         if (data.danoAccidental) {
           var da = data.danoAccidental;
-          cards.push(buildCard('Protección de Daños + Garantía Extendida', 'Daño accidental + extensión de garantía (18/24 meses)', true,
-            [{ m: 24, p: da[24][rangeIdx], sku: data.skus[24][rangeIdx] }, { m: 18, p: da[18][rangeIdx], sku: data.skus[18][rangeIdx] }]));
+          var mainRange = data.ranges[rangeIdx];
           cards.push(buildCard('Daños Accidentales', 'Cobertura por daño accidental (12 meses)', false,
-            [{ m: 12, p: da[12][rangeIdx], sku: data.skus[12][rangeIdx] }]));
+            [{ m: 12, p: da[12][rangeIdx], sku: data.skus[12][rangeIdx], altText: buildSkuAltText(dev, mainRange, 'danos', 12) }]));
+          cards.push(buildCard('Protección de Daños + Garantía Extendida', 'Daño accidental + extensión de garantía (18/24 meses)', true,
+            [
+              { m: 24, p: da[24][rangeIdx], sku: data.skus[24][rangeIdx], altText: buildSkuAltText(dev, mainRange, 'proteccion', 24) },
+              { m: 18, p: da[18][rangeIdx], sku: data.skus[18][rangeIdx], altText: buildSkuAltText(dev, mainRange, 'proteccion', 18) }
+            ]));
         }
 
         if (extGarantiaCard) cards.push(extGarantiaCard);
