@@ -1240,7 +1240,7 @@
 
     .motor-a .category-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
       gap: 10px;
     }
 
@@ -1807,6 +1807,10 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><rect x="7" y="7" width="10" height="10" rx="2" /><path d="M10 7V5h4v2M10 17v2h4v-2" /></svg>
                 Watch
               </button>
+              <button type="button" class="category-btn" data-cat="airpods">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3a4 4 0 00-4 4v3a3 3 0 003 3h1V7a1 1 0 012 0v4a3 3 0 01-3 3H6v4a3 3 0 003 3h1V7a3 3 0 00-3-4zM17 3a4 4 0 014 4v3a3 3 0 01-3 3h-1V7a1 1 0 00-2 0v4a3 3 0 003 3h1v4a3 3 0 01-3 3h-1V7a3 3 0 013-4z" /></svg>
+                AirPods
+              </button>
             </div>
           </div>
 
@@ -2352,6 +2356,19 @@
           18: [20, 30, 45, 60, 75],
           24: [25, 40, 50, 70, 85]
         }
+      },
+      airpods: {
+        ranges: [[250, 450], [450, 650], [650, 900], [900, 1150], [1150, 1400]],
+        todoRiesgo: {
+          12: [45, 70, 95, 110, 130],
+          18: [60, 95, 135, 155, 185],
+          24: [70, 110, 155, 175, 210]
+        },
+        roboHurto: {
+          12: [15, 25, 35, 45, 55],
+          18: [20, 30, 45, 60, 75],
+          24: [25, 40, 50, 70, 85]
+        }
       }
     };
 
@@ -2371,7 +2388,8 @@
       iphone: 'celulares',
       ipad: 'resto',
       mac: 'resto',
-      watch: 'resto'
+      watch: 'resto',
+      airpods: 'resto'
     };
 
     const EXT_GARANTIA_PRIMARY_TERM = {
