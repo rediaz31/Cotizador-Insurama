@@ -1874,6 +1874,11 @@
                 </div>
                 <div class="coverage-terms">
                   <label class="coverage-term-row">
+                    <input type="radio" name="coverage" value="robo:36">
+                    <div class="term-left"><span class="term-months">36 meses</span></div>
+                    <div class="term-right"><span class="term-monthly">$0.00<small>/mes</small></span><span class="term-total">Total: $0.00</span></div>
+                  </label>
+                  <label class="coverage-term-row">
                     <input type="radio" name="coverage" value="robo:24">
                     <div class="term-left"><span class="term-months">24 meses</span></div>
                     <div class="term-right"><span class="term-monthly">$0.00<small>/mes</small></span><span class="term-total">Total: $0.00</span></div>
@@ -1902,8 +1907,13 @@
                 </div>
                 <div class="coverage-terms">
                   <label class="coverage-term-row">
-                    <input type="radio" name="coverage" value="todoriesgo:24" checked>
-                    <div class="term-left"><span class="term-months">24 meses</span><span class="term-badge">RECOMENDADO</span></div>
+                    <input type="radio" name="coverage" value="todoriesgo:36" checked>
+                    <div class="term-left"><span class="term-months">36 meses</span><span class="term-badge">RECOMENDADO</span></div>
+                    <div class="term-right"><span class="term-monthly">$0.00<small>/mes</small></span><span class="term-total">Total: $0.00</span></div>
+                  </label>
+                  <label class="coverage-term-row">
+                    <input type="radio" name="coverage" value="todoriesgo:24">
+                    <div class="term-left"><span class="term-months">24 meses</span></div>
                     <div class="term-right"><span class="term-monthly">$0.00<small>/mes</small></span><span class="term-total">Total: $0.00</span></div>
                   </label>
                   <label class="coverage-term-row">
@@ -1928,6 +1938,11 @@
                   <div class="coverage-subtitle">Cobertura por rotura o mal funcionamiento</div>
                 </div>
                 <div class="coverage-terms">
+                  <label class="coverage-term-row">
+                    <input type="radio" name="coverage" value="danos:36">
+                    <div class="term-left"><span class="term-months">36 meses</span></div>
+                    <div class="term-right"><span class="term-monthly">$0.00<small>/mes</small></span><span class="term-total">Total: $0.00</span></div>
+                  </label>
                   <label class="coverage-term-row">
                     <input type="radio" name="coverage" value="danos:24">
                     <div class="term-left"><span class="term-months">24 meses</span></div>
@@ -2406,10 +2421,10 @@
      TABLAS
     **********************/
     const coverageTotals = {
-      todoriesgo: { 12: 0, 18: 0, 24: 0 },
-      robo: { 12: 0, 18: 0, 24: 0 },
-      danos: { 12: 0, 18: 0, 24: 0 },
-      ninguno: { 12: 0, 18: 0, 24: 0 }
+      todoriesgo: { 12: 0, 18: 0, 24: 0, 36: 0 },
+      robo: { 12: 0, 18: 0, 24: 0, 36: 0 },
+      danos: { 12: 0, 18: 0, 24: 0, 36: 0 },
+      ninguno: { 12: 0, 18: 0, 24: 0, 36: 0 }
     };
 
     const coverageAvailability = {
@@ -2465,7 +2480,7 @@
       var paymentInfo = getPaymentInfo();
       var garantiaInfo = getGarantiaDisplayInfo(paymentInfo);
       ['todoriesgo', 'robo', 'danos'].forEach(function (plan) {
-        [24, 18, 12].forEach(function (term) {
+        [36, 24, 18, 12].forEach(function (term) {
           var input = document.querySelector('input[name="coverage"][value="' + plan + ':' + term + '"]');
           if (!input) return;
           var row = input.closest('.coverage-term-row');
@@ -2694,10 +2709,10 @@
       if (!selected) return;
       var value = selected.value;
       if (value.indexOf('robo:') === 0 && !coverageAvailability.robo) {
-        document.querySelector('input[name="coverage"][value="todoriesgo:24"]').checked = true;
+        document.querySelector('input[name="coverage"][value="todoriesgo:36"]').checked = true;
       }
       if (value.indexOf('danos:') === 0 && !coverageAvailability.danos) {
-        document.querySelector('input[name="coverage"][value="todoriesgo:24"]').checked = true;
+        document.querySelector('input[name="coverage"][value="todoriesgo:36"]').checked = true;
       }
     }
 
@@ -2706,10 +2721,10 @@
       var devicePrice = Number(document.getElementById('device-price').value) || 0;
       var data = DB[device];
 
-      coverageTotals.todoriesgo = { 12: 0, 18: 0, 24: 0 };
-      coverageTotals.robo = { 12: 0, 18: 0, 24: 0 };
-      coverageTotals.danos = { 12: 0, 18: 0, 24: 0 };
-      coverageTotals.ninguno = { 12: 0, 18: 0, 24: 0 };
+      coverageTotals.todoriesgo = { 12: 0, 18: 0, 24: 0, 36: 0 };
+      coverageTotals.robo = { 12: 0, 18: 0, 24: 0, 36: 0 };
+      coverageTotals.danos = { 12: 0, 18: 0, 24: 0, 36: 0 };
+      coverageTotals.ninguno = { 12: 0, 18: 0, 24: 0, 36: 0 };
 
       coverageAvailability.robo = false;
       coverageAvailability.danos = false;
@@ -2730,7 +2745,8 @@
       coverageTotals.todoriesgo = {
         12: data.todoRiesgo[12][rangeIdx],
         18: data.todoRiesgo[18][rangeIdx],
-        24: data.todoRiesgo[24][rangeIdx]
+        24: data.todoRiesgo[24][rangeIdx],
+        36: data.todoRiesgo[36][rangeIdx]
       };
 
       if (data.roboHurto) {
@@ -2738,7 +2754,8 @@
         coverageTotals.robo = {
           12: data.roboHurto[12][rangeIdx],
           18: data.roboHurto[18][rangeIdx],
-          24: data.roboHurto[24][rangeIdx]
+          24: data.roboHurto[24][rangeIdx],
+          36: data.roboHurto[36][rangeIdx]
         };
       }
 
@@ -2747,7 +2764,8 @@
         coverageTotals.danos = {
           12: data.danoAccidental[12][rangeIdx],
           18: data.danoAccidental[18][rangeIdx],
-          24: data.danoAccidental[24][rangeIdx]
+          24: data.danoAccidental[24][rangeIdx],
+          36: data.danoAccidental[36][rangeIdx]
         };
       }
 
