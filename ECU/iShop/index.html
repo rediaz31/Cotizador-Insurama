@@ -1768,7 +1768,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
           24: [68.00,93.00,125.00,152.00,184.00,219.00,263.00,293.00,320.00,350.00,392.00,427.00,537.00]
         },
         skus: {
-          12: ['P12IPADA1250','P12IPADA1625','P12IPADA2000','P12IPADA2375','P12IPADA2625','P12IPADA2875','SKU - 0000000001','SKU - 0000000002','SKU - 0000000003','SKU - 0000000004','SKU - 0000000005','SKU - 0000000006', null],
+          12: ['P12IPADA1250','P12IPADA1625','P12IPADA2000','P12IPADA2375','P12IPADA2625','P12IPADA2875','SKU - 0000000001','SKU - 0000000002','SKU - 0000000003','SKU - 0000000004','SKU - 0000000005','SKU - 0000000006'],
           18: ['PR18+GXIPAD1','PR18+GXIPAD10','PR18+GXIPAD11','PR18+GXIPAD12','PR18+GXIPAD13','PR18+GXIPAD2','PR18+GXIPAD3','PR18+GXIPAD4','PR18+GXIPAD5','PR18+GXIPAD6','PR18+GXIPAD7','PR18+GXIPAD8','PR18+GXIPAD9'],
           24: ['PR24+GXIPAD1','PR24+GXIPAD10','PR24+GXIPAD11','PR24+GXIPAD12','PR24+GXIPAD13','PR24+GXIPAD2','PR24+GXIPAD3','PR24+GXIPAD4','PR24+GXIPAD5','PR24+GXIPAD6','PR24+GXIPAD7','PR24+GXIPAD8','PR24+GXIPAD9']
         }
@@ -2058,9 +2058,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         var priceDisplay = '<div style="text-align:right"><span style="font-size:20px;font-weight:600;color:' + priceColor + ';line-height:1">' + fmt(total) + '</span><div style="font-size:10px;color:#818181;margin-top:4px;white-space:nowrap">Equivale a ' + fmt(monthly) + ' por mes</div></div>';
         var highlight = isHighlight ? '<div style="font-size:10px;font-weight:700;color:#FE5000;margin-top:2px;text-transform:uppercase;letter-spacing:0.06em">Recomendado</div>' : '';
         var skuAltLine = '<div style="font-size:10px;font-weight:600;color:#524C4A;margin-top:4px;letter-spacing:0.02em;line-height:1.3">' + (p.altText || SKU_ALT_TEXT) + '</div>';
-        var skuLine = p.sku
-          ? '<div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:4px"><span style="font-size:9px;color:#9ca3af;letter-spacing:0.02em">' + p.sku + '</span>' + qrButton(p.sku) + '</div>'
-          : '<div style="font-size:9px;color:#818181;margin-top:4px">SKU pendiente de confirmar</div>';
+        var skuLine = p.sku ? '<div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:4px"><span style="font-size:9px;color:#9ca3af;letter-spacing:0.02em">' + p.sku + '</span>' + qrButton(p.sku) + '</div>' : '';
         var savingsBadge = (i === priciestIdx && savingsPct !== null && savingsPct > 0)
           ? '<div style="display:inline-flex;align-items:center;gap:3px;background:#16a34a;color:#fff;font-size:9px;font-weight:700;padding:3px 8px;border-radius:10px;letter-spacing:0.03em;margin-bottom:6px;">Ahorra ' + savingsPct + '%</div>'
           : '';
