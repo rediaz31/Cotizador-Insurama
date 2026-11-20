@@ -2051,6 +2051,242 @@
         justify-content: center;
       }
     }
+
+    .term-detail,
+    .term-sku {
+      font-size: 10px;
+      line-height: 1.4;
+      color: #524C4A;
+    }
+
+    .term-detail {
+      margin-top: 4px;
+    }
+
+    .term-price-unavailable {
+      margin-top: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      color: #b45309;
+    }
+
+    .term-sku {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 6px;
+    }
+
+    .qr-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border: 1.5px solid #FE5000;
+      border-radius: 999px;
+      background: #fff;
+      color: #FE5000;
+      font-size: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .motor-a .extended-warranty-option.is-unavailable {
+      cursor: not-allowed;
+      opacity: 0.72;
+    }
+
+    .qr-btn:hover,
+    .qr-btn:focus-visible {
+      background: #FE5000;
+      color: #fff;
+      outline: none;
+    }
+
+    #qrModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(10, 10, 15, 0.6);
+      backdrop-filter: blur(4px);
+    }
+
+    #qrModal.open {
+      display: flex;
+    }
+
+    .qr-card {
+      position: relative;
+      width: 100%;
+      max-width: 340px;
+      padding: 28px 24px 22px;
+      border-radius: 24px;
+      background: #fff;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .qr-close {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      border: 0;
+      background: transparent;
+      color: #818181;
+      font-size: 26px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    #qrBox svg {
+      display: block;
+      width: 240px;
+      height: 240px;
+      max-width: 100%;
+      margin: 14px auto;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 12px;
+    }
+
+    .qr-action {
+      padding: 10px 18px;
+      border: 1.5px solid #FE5000;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .qr-action.primary {
+      background: #FE5000;
+      color: #fff;
+    }
+
+    .qr-action.secondary {
+      background: #fff;
+      color: #FE5000;
+    }
+
+    #quoteActions {
+      display: none;
+      justify-content: flex-end;
+      margin: 0 0 16px;
+    }
+
+    #quoteActions.visible-actions {
+      display: flex;
+    }
+
+    .print-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border: 0;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #FE5000 0%, #c23d00 100%);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(254, 80, 0, 0.3);
+    }
+
+    .print-only {
+      display: none;
+    }
+
+    @media print {
+      @page {
+        margin: 12mm;
+      }
+
+      body {
+        background: #fff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      header,
+      footer,
+      .hero-section,
+      .no-print,
+      #tab-guia,
+      #tab-contacto {
+        display: none !important;
+      }
+
+      .tab-content {
+        display: none !important;
+      }
+
+      #tab-cotizador {
+        display: block !important;
+      }
+
+      #tab-cotizador > section {
+        max-width: none !important;
+        padding: 0 !important;
+      }
+
+      #printHeader {
+        display: block !important;
+      }
+
+      #quoteActions {
+        display: none !important;
+      }
+
+      .motor-a {
+        display: block !important;
+      }
+
+      .motor-a > .card {
+        padding: 0 !important;
+        border: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+      }
+
+      #tab-cotizador .motor-a > .card > .section:not(#coverage-panel) {
+        display: none !important;
+      }
+
+      #coverage-panel {
+        padding: 0 !important;
+        border: 0 !important;
+      }
+
+      #coverage-panel > .step-label,
+      #coverage-panel > .no-coverage-btn {
+        display: none !important;
+      }
+
+      .motor-a .coverage-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      }
+
+      .motor-a .coverage-card {
+        width: 100% !important;
+        margin: 0 !important;
+        grid-column: auto !important;
+        break-inside: avoid;
+        animation: none !important;
+        transform: none !important;
+        box-shadow: none !important;
+        opacity: 1 !important;
+      }
+
+      .motor-a .summary-card {
+        break-inside: avoid;
+        box-shadow: none !important;
+      }
+    }
   </style>
 </head>
 
@@ -2081,6 +2317,10 @@
   </section> <!-- TAB: COTIZADOR -->
   <div id="tab-cotizador" class="tab-content active">
     <section class="max-w-6xl mx-auto px-4 py-4 sm:py-6 md:py-7">
+      <div id="printHeader" class="print-only" style="margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #FE5000">
+        <p style="font-size:20px;font-weight:700;color:#070200;margin:0">Cotización de protección Insurama</p>
+        <p id="printSummary" style="font-size:13px;color:#524C4A;margin:6px 0 0"></p>
+      </div>
       <div class="motor-a">
         <div class="card reveal visible">
 
@@ -2161,7 +2401,7 @@
             <div class="step-label"><span class="n">3</span>Dispositivo</div>
             <div class="price-input-wrap">
               <span>$</span>
-              <input type="number" id="device-price" placeholder="Precio de lista" min="0" step="0.01">
+              <input type="number" id="device-price" placeholder="Precio de lista" min="0" step="1">
             </div>
           </div>
 
@@ -2173,6 +2413,13 @@
             <div id="extended-warranty-container"></div>
           </div>
 
+        </div>
+
+        <div id="quoteActions" class="no-print">
+          <button type="button" class="print-btn" onclick="printQuote()">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Imprimir cotización
+          </button>
         </div>
 
         <div class="summary-card reveal visible">
@@ -2367,6 +2614,19 @@
       <p class="text-sm" style="color:#524C4A">&copy; 2026 Insurama. Todos los derechos reservados.</p>
     </div>
   </footer>
+  <div id="qrModal" class="no-print" role="dialog" aria-modal="true" aria-labelledby="qrTitle" onclick="if (event.target === this) closeQr()">
+    <div class="qr-card">
+      <button type="button" class="qr-close" onclick="closeQr()" aria-label="Cerrar">&times;</button>
+      <p id="qrTitle" style="font-size:16px;font-weight:700;color:#070200;margin:0">Código QR del SKU</p>
+      <div id="qrBox"></div>
+      <p id="qrSku" style="font-size:13px;font-weight:600;color:#524C4A;margin:0 0 18px;word-break:break-all"></p>
+      <div style="display:flex;gap:10px;justify-content:center">
+        <button type="button" class="qr-action primary" onclick="downloadQr()">Descargar QR</button>
+        <button type="button" class="qr-action secondary" onclick="closeQr()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+  <script src="qrcode-generator.js"></script>
   <script>
     function showTab(name, btn) {
       document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -2778,14 +3038,13 @@
       }
     };
 
-    DB.otros = { ranges: EXTENDED_WARRANTY.resto.ranges };
-
     /**********************
      TABLAS
     **********************/
     let rangeMessage = 'Ingresa el precio del dispositivo para detectar el rango.';
     let accordionReady = false;
     let currentCoverageTable = {};
+    let currentCoverageSkus = {};
     let currentCoverageMeta = {};
     let selectedCoverageValue = null;
     let selectedWarrantyValue = null;
@@ -2810,6 +3069,55 @@
     // Solo formato de presentación (sin conversión de valores)
     function formatCurrency(n) {
       return COP_FORMATTER.format(Number(n || 0)) + ' COP';
+    }
+
+    function qrButton(sku) {
+      var safe = String(sku).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+      return '<button type="button" class="qr-btn no-print" data-sku="' + safe + '" onclick="openQr(this.dataset.sku)" title="Generar código QR de este SKU" aria-label="Generar código QR del SKU ' + safe + '">'
+        + '<svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm8 0h2v2h-2v-2zm2 2h2v2h-2v-2zm-2 2h2v2h-2v-2zm4-4h2v2h-2v-2zm0 4h2v2h-2v-2z"/></svg>Ver QR</button>';
+    }
+
+    var currentQrSku = '';
+
+    function openQr(sku) {
+      currentQrSku = sku;
+      var qr = qrcode(0, 'M');
+      qr.addData(sku);
+      qr.make();
+      document.getElementById('qrBox').innerHTML = qr.createSvgTag({ cellSize: 8, margin: 4 });
+      document.getElementById('qrSku').textContent = sku;
+      document.getElementById('qrModal').classList.add('open');
+    }
+
+    function closeQr() {
+      document.getElementById('qrModal').classList.remove('open');
+    }
+
+    function downloadQr() {
+      var svg = document.querySelector('#qrBox svg');
+      if (!svg) return;
+      var img = new Image();
+      img.onload = function () {
+        var canvas = document.createElement('canvas');
+        canvas.width = canvas.height = 480;
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, 480, 480);
+        ctx.drawImage(img, 0, 0, 480, 480);
+        var link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = 'QR-' + currentQrSku.replace(/[^\w.-]+/g, '_') + '.png';
+        link.click();
+      };
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(svg));
+    }
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeQr();
+    });
+
+    function printQuote() {
+      window.print();
     }
 
     function getSelectedCategory() {
@@ -2855,35 +3163,29 @@
     }
 
     function getExtendedWarrantyTotal(device, devicePrice, warrantyMonths) {
-      var sourceKey = device === 'iphone' ? 'celulares' : 'resto';
-      var source = EXTENDED_WARRANTY[sourceKey];
+      var source = EXTENDED_WARRANTY[device];
+      if (!source) return 0;
       var rangeIndex = findRange(source.ranges, devicePrice);
-      if (rangeIndex < 0 || !source[warrantyMonths]) return 0;
+      var prices = source[warrantyMonths];
+      if (rangeIndex < 0 || !Array.isArray(prices) || rangeIndex >= prices.length) return 0;
 
-      var baseTotal = source[warrantyMonths][rangeIndex];
-      if (baseTotal === null || baseTotal === undefined) return 0;
+      var baseTotal = prices[rangeIndex];
+      if (!Number.isFinite(baseTotal)) return 0;
 
       return baseTotal;
     }
 
     function renderExtendedWarrantyCard(device, devicePrice, paymentInfo, preferredWarrantyValue) {
       var container = document.getElementById('extended-warranty-container');
-      var sourceKey = device === 'iphone' ? 'celulares' : 'resto';
-      var source = EXTENDED_WARRANTY[sourceKey];
+      var source = EXTENDED_WARRANTY[device];
 
-      if (!container || !devicePrice) {
+      if (!container || !devicePrice || !source) {
         if (container) container.innerHTML = '';
         selectedWarrantyValue = null;
         return;
       }
 
-      var rangeIndex = -1;
-      for (var i = 0; i < source.ranges.length; i++) {
-        if (devicePrice >= source.ranges[i][0] && devicePrice <= source.ranges[i][1]) {
-          rangeIndex = i;
-          break;
-        }
-      }
+      var rangeIndex = findRange(source.ranges, devicePrice);
 
       if (rangeIndex < 0) {
         container.innerHTML = '';
@@ -2891,30 +3193,48 @@
         return;
       }
 
-      var months = sourceKey === 'celulares' ? [24, 12] : [36];
+      var months = [36, 24, 12].filter(function (month) {
+        return Array.isArray(source[month]);
+      });
       var totals = months.map(function (month) {
         return { month: month, total: getExtendedWarrantyTotal(device, devicePrice, month) };
       });
       var highestTotal = Math.max.apply(null, totals.map(function (option) { return option.total; }));
       var previousSelected = preferredWarrantyValue || selectedWarrantyValue;
       var rows = months.map(function (month) {
-        var total = getExtendedWarrantyTotal(device, devicePrice, month);
-        if (!total) return '';
-        var displayedAmount = paymentInfo.isContado
+        var prices = source[month];
+        var hasPrice = rangeIndex < prices.length && Number.isFinite(prices[rangeIndex]) && prices[rangeIndex] > 0;
+        var total = hasPrice ? prices[rangeIndex] : 0;
+        var displayedAmount = hasPrice && paymentInfo.isContado
           ? total
-          : Number((total / paymentInfo.months).toFixed(2));
-        var isRecommended = total === highestTotal;
+          : hasPrice && paymentInfo.months > 0
+            ? Number((total / paymentInfo.months).toFixed(2))
+            : 0;
+        var isRecommended = hasPrice && total === highestTotal;
         var optionValue = 'extendedWarranty:' + month;
-        var isSelected = previousSelected === optionValue;
-        var price = formatCurrency(displayedAmount) + (paymentInfo.isContado ? '' : '<small>/mes</small>');
+        var isSelected = hasPrice && previousSelected === optionValue;
+        var price = hasPrice
+          ? formatCurrency(displayedAmount) + (paymentInfo.isContado ? '' : '<small>/mes</small>')
+          : '<span class="term-price-unavailable">Tarifa pendiente de validar</span>';
         var badge = isRecommended ? '<span class="term-badge">Recomendado</span>' : '';
+        var sku = source.sku && source.sku[month] && source.sku[month][rangeIndex];
+        var skuHtml = sku
+          ? 'SKU: ' + sku + ' ' + qrButton(sku)
+          : 'SKU pendiente de confirmar';
+        var rowTag = hasPrice ? 'label' : 'div';
+        var rowClass = 'coverage-term-row extended-warranty-option '
+          + (isRecommended ? 'is-highlight ' : '')
+          + (isSelected ? 'is-selected ' : '')
+          + (!hasPrice ? 'is-unavailable' : '');
 
-        return '<label class="coverage-term-row extended-warranty-option ' + (isRecommended ? 'is-highlight ' : '') + (isSelected ? 'is-selected' : '') + '">'
-          + '<input type="radio" name="warranty" value="' + optionValue + '"' + (isSelected ? ' checked' : '') + '>'
-          + '<div class="term-left"><span class="term-months">12 + ' + month + ' MESES</span>' + badge + '</div>'
+        return '<' + rowTag + ' class="' + rowClass + '">'
+          + (hasPrice ? '<input type="radio" name="warranty" value="' + optionValue + '"' + (isSelected ? ' checked' : '') + '>' : '')
+          + '<div class="term-left"><span class="term-months">12 + ' + month + ' MESES</span>' + badge
+          + '<span class="term-detail">Extiende la garantía del fabricante por ' + month + ' meses.</span>'
+          + '<span class="term-sku">' + skuHtml + '</span></div>'
           + '<div class="term-right"><span class="term-monthly">' + price + '</span></div>'
-          + '</label>';
-      }).filter(function (row) { return row !== ''; }).join('');
+          + '</' + rowTag + '>';
+      }).join('');
 
       if (!rows) {
         container.innerHTML = '';
@@ -3006,9 +3326,14 @@
       }).map(function (term) {
         var isHighlight = term === recommendedTerm;
         var badge = isHighlight ? '<span class="term-badge">Recomendado</span>' : '';
+        var sku = currentCoverageSkus[meta.key] && currentCoverageSkus[meta.key][term];
+        var skuHtml = sku
+          ? 'SKU: ' + sku + ' ' + qrButton(sku)
+          : 'SKU pendiente de confirmar';
         return '<label class="coverage-term-row ' + (isHighlight ? 'is-highlight' : '') + '">'
           + '<input type="radio" name="coverage" value="' + meta.key + ':' + term + '">'
-          + '<div class="term-left"><span class="term-months">' + term + ' meses</span>' + badge + '</div>'
+          + '<div class="term-left"><span class="term-months">' + term + ' meses</span>' + badge
+          + '<span class="term-sku">' + skuHtml + '</span></div>'
           + '<div class="term-right"><span class="term-monthly">' + formatCurrency(0) + '<small>/mes</small></span><span class="term-total">Total: ' + formatCurrency(0) + '</span></div>'
           + '</label>';
       }).join('');
@@ -3252,6 +3577,7 @@
       var data = DB[device];
 
       currentCoverageTable = {};
+      currentCoverageSkus = {};
       currentCoverageMeta = {};
 
       if (!devicePrice || !data || !data.ranges) {
@@ -3271,19 +3597,23 @@
 
       var defs = COVERAGE_DEFS_BY_DEVICE[device] || [];
       defs.forEach(function (def) {
-        var source = data[def.key];
+        var source = data.coberturas && data.coberturas[def.key];
         if (!source) return;
         var terms = {};
+        var skus = {};
         PLAN_TERMS.forEach(function (term) {
-          var series = source[term];
+          var series = source.tarifas && source.tarifas[term];
           if (!series) return;
           var price = series[rangeIdx];
           if (price == null) return;
           terms[term] = Number(price);
+          var skuSeries = source.sku && source.sku[term];
+          if (skuSeries && skuSeries[rangeIdx]) skus[term] = skuSeries[rangeIdx];
         });
 
         if (Object.keys(terms).length > 0) {
           currentCoverageTable[def.key] = terms;
+          currentCoverageSkus[def.key] = skus;
           currentCoverageMeta[def.key] = def;
         }
       });
@@ -3311,6 +3641,7 @@
         hydrateCoverageTables(preferredCoverageValue);
       } else {
         currentCoverageTable = {};
+        currentCoverageSkus = {};
         currentCoverageMeta = {};
         selectedCoverageValue = null;
         var coverageGridEl = document.getElementById('coverage-grid');
@@ -3321,9 +3652,11 @@
 
       if (selectedProducts.garantia) {
         if (!selectedProducts.seguro) {
-          var warrantySource = EXTENDED_WARRANTY[getSelectedCategory() === 'iphone' ? 'celulares' : 'resto'];
+          var warrantySource = EXTENDED_WARRANTY[getSelectedCategory()];
           if (!devicePrice) {
             rangeMessage = 'Ingresa el precio del dispositivo para detectar el rango.';
+          } else if (!warrantySource) {
+            rangeMessage = 'Garantía extendida no disponible para esta categoría.';
           } else {
             var warrantyRangeIdx = findRange(warrantySource.ranges, devicePrice);
             rangeMessage = warrantyRangeIdx < 0
@@ -3411,6 +3744,30 @@
       }
 
       updateAccordionSummaries();
+
+      var hasPricedPlan = devicePrice > 0 && (coverageTotal > 0 || warrantyTotal > 0);
+      var quoteActions = document.getElementById('quoteActions');
+      if (quoteActions) quoteActions.classList.toggle('visible-actions', hasPricedPlan);
+
+      var categoryBtn = document.querySelector('#category-grid .category-btn.active');
+      var categoryName = categoryBtn ? categoryBtn.textContent.trim() : 'Dispositivo';
+      var productName = selectedProducts.seguro && selectedProducts.garantia
+        ? 'Seguro + Garantía Extendida'
+        : selectedProducts.seguro
+          ? 'Seguro'
+          : selectedProducts.garantia
+            ? 'Garantía Extendida'
+            : 'Sin cobertura';
+      var quoteDetails = [
+        'Producto: ' + productName,
+        'Categoría: ' + categoryName,
+        'Precio de lista: ' + formatCurrency(devicePrice),
+        'Plan: ' + getCoverageSummaryText()
+      ];
+      var warrantySummary = getWarrantySummaryText();
+      if (warrantySummary) quoteDetails.push(warrantySummary);
+      quoteDetails.push('Fecha: ' + new Date().toLocaleDateString('es-CO'));
+      document.getElementById('printSummary').textContent = quoteDetails.join(' | ');
     }
 
     function setupAutoRecalculation() {
