@@ -845,6 +845,36 @@
         grid-template-columns: repeat(3, minmax(0, 1fr))
       }
     }
+    .sku-details { margin-top: 6px; font-size: 10px; color: #524C4A; line-height: 1.4; }
+    .sku-line { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+    .sku-code { font-size: 9px; color: #6b7280; overflow-wrap: anywhere; }
+    .qr-btn { padding: 3px 9px; border: 1.5px solid #FE5000; border-radius: 999px; background: #fff; color: #FE5000; font-size: 10px; font-weight: 700; cursor: pointer; }
+    .qr-btn:hover, .qr-btn:focus-visible { background: #FE5000; color: #fff; }
+    #qrModal { display: none; position: fixed; inset: 0; z-index: 100; align-items: center; justify-content: center; padding: 16px; background: rgba(10,10,15,.6); }
+    #qrModal.open { display: flex; }
+    .qr-card { position: relative; width: 100%; max-width: 340px; padding: 28px 24px 22px; border-radius: 24px; background: #fff; text-align: center; }
+    .qr-close { position: absolute; top: 10px; right: 14px; border: 0; background: transparent; color: #818181; font-size: 26px; cursor: pointer; }
+    #qrBox svg { display: block; width: 240px; height: 240px; max-width: 100%; margin: 14px auto; border: 1px solid #e5e7eb; border-radius: 12px; }
+    .qr-action { padding: 10px 18px; border: 1.5px solid #FE5000; border-radius: 12px; background: #fff; color: #FE5000; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .qr-action.primary { background: #FE5000; color: #fff; }
+    #quoteActions { display: none; justify-content: flex-end; margin-bottom: 16px; }
+    #quoteActions.visible-actions { display: flex; }
+    .print-btn { padding: 12px 22px; border: 0; border-radius: 12px; background: linear-gradient(135deg,#FE5000,#c23d00); color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; }
+    .print-only { display: none; }
+    @media print {
+      @page { margin: 12mm; }
+      body { background: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      header, footer, .hero-section, .no-print, #tab-guia, #tab-contacto,
+      .motor-a .accordion-step:not([data-step-key="cobertura"]), .motor-a .accordion-header,
+      .motor-a .no-coverage-btn, #range-indicator { display: none !important; }
+      .print-only { display: block; }
+      #tab-cotizador { display: block !important; }
+      #tab-cotizador > section { padding: 0 !important; }
+      .motor-a { display: block !important; }
+      .motor-a .card, .motor-a .summary-card { box-shadow: none !important; }
+      .motor-a .coverage-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+      .motor-a .coverage-card { break-inside: avoid; animation: none !important; transform: none !important; }
+    }
   </style>
   <style>
     * {
@@ -2081,6 +2111,14 @@
   </section> <!-- TAB: COTIZADOR -->
   <div id="tab-cotizador" class="tab-content active">
     <section class="max-w-6xl mx-auto px-4 py-4 sm:py-6 md:py-7">
+      <div class="print-only" style="margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #FE5000">
+        <h2>Cotización iShop</h2>
+        <p id="printSummary"></p>
+        <p id="printSelection"></p>
+      </div>
+      <div id="quoteActions" class="no-print">
+        <button type="button" class="print-btn" onclick="window.print()">Imprimir cotización</button>
+      </div>
       <div class="motor-a">
         <div class="card reveal visible">
 
@@ -2367,6 +2405,17 @@
       <p class="text-sm" style="color:#524C4A">&copy; 2026 Insurama. Todos los derechos reservados.</p>
     </div>
   </footer>
+  <div id="qrModal" class="no-print" role="dialog" aria-modal="true" aria-labelledby="qrTitle" onclick="if (event.target === this) closeQr()">
+    <div class="qr-card">
+      <button type="button" class="qr-close" onclick="closeQr()" aria-label="Cerrar">&times;</button>
+      <p id="qrTitle" style="font-size:16px;font-weight:700">Código QR del SKU</p>
+      <div id="qrBox"></div>
+      <p id="qrSku" style="font-size:13px;word-break:break-all;margin-bottom:18px"></p>
+      <button type="button" class="qr-action primary" onclick="downloadQr()">Descargar QR</button>
+      <button type="button" class="qr-action" onclick="closeQr()">Cerrar</button>
+    </div>
+  </div>
+  <script src="qrcode.min.js"></script>
   <script>
     function showTab(name, btn) {
       document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -2778,8 +2827,6 @@
       }
     };
 
-    DB.otros = { ranges: EXTENDED_WARRANTY.resto.ranges };
-
     /**********************
      TABLAS
     **********************/
@@ -2811,6 +2858,66 @@
     function formatCurrency(n) {
       return COP_FORMATTER.format(Number(n || 0)) + ' COP';
     }
+
+    function escapeHtml(value) {
+      return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    function skuDetails(description, sku) {
+      var safeSku = sku ? escapeHtml(sku) : '';
+      return '<div class="sku-details">' + escapeHtml(description) + '<div class="sku-line">'
+        + (safeSku ? '<span class="sku-code">' + safeSku + '</span><button type="button" class="qr-btn no-print" data-sku="' + safeSku + '" aria-label="Ver QR del SKU ' + safeSku + '">Ver QR</button>'
+          : '<span class="sku-code">SKU no disponible</span>') + '</div></div>';
+    }
+
+    var currentQrSku = '';
+    var qrTrigger = null;
+    function openQr(sku, trigger) {
+      currentQrSku = sku;
+      qrTrigger = trigger;
+      var qr = qrcode(0, 'M');
+      qr.addData(sku);
+      qr.make();
+      document.getElementById('qrBox').innerHTML = qr.createSvgTag({ cellSize: 8, margin: 4 });
+      document.getElementById('qrSku').textContent = sku;
+      document.getElementById('qrModal').classList.add('open');
+      document.querySelector('#qrModal .qr-close').focus();
+    }
+
+    function closeQr() {
+      document.getElementById('qrModal').classList.remove('open');
+      if (qrTrigger && qrTrigger.isConnected) qrTrigger.focus();
+      qrTrigger = null;
+    }
+
+    function downloadQr() {
+      var svg = document.querySelector('#qrBox svg');
+      if (!svg) return;
+      var sku = currentQrSku;
+      var img = new Image();
+      img.onload = function () {
+        var canvas = document.createElement('canvas');
+        canvas.width = canvas.height = 480;
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, 480, 480);
+        ctx.drawImage(img, 0, 0, 480, 480);
+        var link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = 'QR-' + sku.replace(/[^\w.-]+/g, '_') + '.png';
+        link.click();
+      };
+      img.onerror = function () { alert('No se pudo descargar el código QR.'); };
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(svg));
+    }
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && document.getElementById('qrModal').classList.contains('open')) closeQr();
+    });
+    document.addEventListener('click', function (event) {
+      var button = event.target.closest('.qr-btn');
+      if (button) openQr(button.dataset.sku, button);
+    });
 
     function getSelectedCategory() {
       var activeBtn = document.querySelector('#category-grid .category-btn.active');
@@ -2855,8 +2962,8 @@
     }
 
     function getExtendedWarrantyTotal(device, devicePrice, warrantyMonths) {
-      var sourceKey = device === 'iphone' ? 'celulares' : 'resto';
-      var source = EXTENDED_WARRANTY[sourceKey];
+      var source = EXTENDED_WARRANTY[device];
+      if (!source) return 0;
       var rangeIndex = findRange(source.ranges, devicePrice);
       if (rangeIndex < 0 || !source[warrantyMonths]) return 0;
 
@@ -2868,11 +2975,16 @@
 
     function renderExtendedWarrantyCard(device, devicePrice, paymentInfo, preferredWarrantyValue) {
       var container = document.getElementById('extended-warranty-container');
-      var sourceKey = device === 'iphone' ? 'celulares' : 'resto';
-      var source = EXTENDED_WARRANTY[sourceKey];
+      var source = EXTENDED_WARRANTY[device];
 
       if (!container || !devicePrice) {
         if (container) container.innerHTML = '';
+        selectedWarrantyValue = null;
+        return;
+      }
+
+      if (!source) {
+        container.innerHTML = '<div class="coverage-card" style="padding:20px">No hay tarifas de garantía disponibles para esta categoría.</div>';
         selectedWarrantyValue = null;
         return;
       }
@@ -2891,7 +3003,7 @@
         return;
       }
 
-      var months = sourceKey === 'celulares' ? [24, 12] : [36];
+      var months = [36, 24, 12].filter(function (month) { return !!source[month]; });
       var totals = months.map(function (month) {
         return { month: month, total: getExtendedWarrantyTotal(device, devicePrice, month) };
       });
@@ -2909,11 +3021,11 @@
         var price = formatCurrency(displayedAmount) + (paymentInfo.isContado ? '' : '<small>/mes</small>');
         var badge = isRecommended ? '<span class="term-badge">Recomendado</span>' : '';
 
-        return '<label class="coverage-term-row extended-warranty-option ' + (isRecommended ? 'is-highlight ' : '') + (isSelected ? 'is-selected' : '') + '">'
+        return '<div><label class="coverage-term-row extended-warranty-option ' + (isRecommended ? 'is-highlight ' : '') + (isSelected ? 'is-selected' : '') + '">'
           + '<input type="radio" name="warranty" value="' + optionValue + '"' + (isSelected ? ' checked' : '') + '>'
           + '<div class="term-left"><span class="term-months">12 + ' + month + ' MESES</span>' + badge + '</div>'
           + '<div class="term-right"><span class="term-monthly">' + price + '</span></div>'
-          + '</label>';
+          + '</label>' + skuDetails('Extiende la garantía del fabricante ' + month + ' meses', source.sku && source.sku[month] && source.sku[month][rangeIndex]) + '</div>';
       }).filter(function (row) { return row !== ''; }).join('');
 
       if (!rows) {
@@ -3006,11 +3118,12 @@
       }).map(function (term) {
         var isHighlight = term === recommendedTerm;
         var badge = isHighlight ? '<span class="term-badge">Recomendado</span>' : '';
-        return '<label class="coverage-term-row ' + (isHighlight ? 'is-highlight' : '') + '">'
+        var sku = meta.skus && meta.skus[term];
+        return '<div><label class="coverage-term-row ' + (isHighlight ? 'is-highlight' : '') + '">'
           + '<input type="radio" name="coverage" value="' + meta.key + ':' + term + '">'
           + '<div class="term-left"><span class="term-months">' + term + ' meses</span>' + badge + '</div>'
           + '<div class="term-right"><span class="term-monthly">' + formatCurrency(0) + '<small>/mes</small></span><span class="term-total">Total: ' + formatCurrency(0) + '</span></div>'
-          + '</label>';
+          + '</label>' + skuDetails(meta.title + ' por ' + term + ' meses', sku) + '</div>';
       }).join('');
 
       if (!rows) return '';
@@ -3254,8 +3367,13 @@
       currentCoverageTable = {};
       currentCoverageMeta = {};
 
-      if (!devicePrice || !data || !data.ranges) {
+      if (!devicePrice) {
         rangeMessage = 'Ingresa el precio del dispositivo para detectar el rango.';
+        renderCoverageGrid(preferredCoverageValue);
+        return;
+      }
+      if (!data || !data.ranges || !data.coberturas) {
+        rangeMessage = 'No hay tarifas de seguro disponibles para esta categoría.';
         renderCoverageGrid(preferredCoverageValue);
         return;
       }
@@ -3271,20 +3389,22 @@
 
       var defs = COVERAGE_DEFS_BY_DEVICE[device] || [];
       defs.forEach(function (def) {
-        var source = data[def.key];
+        var source = data.coberturas[def.key];
         if (!source) return;
         var terms = {};
+        var skus = {};
         PLAN_TERMS.forEach(function (term) {
-          var series = source[term];
+          var series = source.tarifas[term];
           if (!series) return;
           var price = series[rangeIdx];
           if (price == null) return;
           terms[term] = Number(price);
+          if (source.sku && source.sku[term]) skus[term] = source.sku[term][rangeIdx];
         });
 
         if (Object.keys(terms).length > 0) {
           currentCoverageTable[def.key] = terms;
-          currentCoverageMeta[def.key] = def;
+          currentCoverageMeta[def.key] = Object.assign({}, def, { skus: skus });
         }
       });
 
@@ -3321,9 +3441,11 @@
 
       if (selectedProducts.garantia) {
         if (!selectedProducts.seguro) {
-          var warrantySource = EXTENDED_WARRANTY[getSelectedCategory() === 'iphone' ? 'celulares' : 'resto'];
+          var warrantySource = EXTENDED_WARRANTY[getSelectedCategory()];
           if (!devicePrice) {
             rangeMessage = 'Ingresa el precio del dispositivo para detectar el rango.';
+          } else if (!warrantySource) {
+            rangeMessage = 'No hay tarifas de garantía disponibles para esta categoría.';
           } else {
             var warrantyRangeIdx = findRange(warrantySource.ranges, devicePrice);
             rangeMessage = warrantyRangeIdx < 0
@@ -3411,6 +3533,14 @@
       }
 
       updateAccordionSummaries();
+      var hasPlans = !!document.querySelector('#coverage-grid .coverage-term-row, #extended-warranty-container .coverage-term-row');
+      document.getElementById('quoteActions').classList.toggle('visible-actions', hasPlans);
+      var category = document.querySelector('#category-grid .category-btn.active');
+      document.getElementById('printSummary').textContent = 'Dispositivo: ' + (category ? category.textContent.trim() : '')
+        + ' | Precio de lista: ' + formatCurrency(devicePrice) + ' | Fecha: ' + new Date().toLocaleDateString('es-CO');
+      document.getElementById('printSelection').textContent = 'Selección: ' + (getWarrantySummaryText()
+        ? (selectedProducts.seguro ? getCoverageSummaryText() + ' + ' : '') + getWarrantySummaryText()
+        : (selectedProducts.seguro ? getCoverageSummaryText() : 'Sin garantía'));
     }
 
     function setupAutoRecalculation() {
