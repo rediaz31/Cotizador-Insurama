@@ -3708,6 +3708,7 @@
       }
 
       updateAccordionSummaries();
+      syncProductSelectionUI();
       var hasPlans = !!document.querySelector('#coverage-grid .coverage-term-row, #extended-warranty-container .coverage-term-row');
       document.getElementById('quoteActions').classList.toggle('visible-actions', hasPlans);
       var category = document.querySelector('#category-grid .category-btn.active');
@@ -3777,6 +3778,12 @@
           b.classList.remove('active');
         });
         btn.classList.add('active');
+        
+        if (btn.dataset.cat === 'appletv') {
+          selectedProducts.seguro = false;
+          selectedProducts.garantia = true;
+        }
+        
         calc();
       });
     });
