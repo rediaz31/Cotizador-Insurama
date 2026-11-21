@@ -3055,17 +3055,41 @@
     }
 
     function syncProductSelectionUI() {
+      var selectedCategory = getSelectedCategory();
+      var isAppleTV = selectedCategory === 'appletv';
+      var seguoBtn = document.getElementById('tab-seguro');
+      var garantiaBtn = document.getElementById('tab-gar');
+
+      if (isAppleTV) {
+        if (seguoBtn) seguoBtn.style.display = 'none';
+        if (garantiaBtn) garantiaBtn.style.display = 'block';
+        selectedProducts.seguro = false;
+        selectedProducts.garantia = true;
+      } else {
+        if (seguoBtn) seguoBtn.style.display = 'block';
+        if (garantiaBtn) garantiaBtn.style.display = 'block';
+      }
+
       document.querySelectorAll('#product-grid .product-card').forEach(function (card) {
         var isActive = !!selectedProducts[card.dataset.product];
         card.classList.toggle('active', isActive);
         card.setAttribute('aria-pressed', isActive ? 'true' : 'false');
       });
-      document.getElementById('coverage-panel').hidden = !selectedProducts.seguro;
+      document.getElementById('coverage-panel').hidden = !selectedProducts.seguro || isAppleTV;
       document.getElementById('warranty-panel').hidden = !selectedProducts.garantia;
     }
 
     function toggleProduct(product) {
+      var selectedCategory = getSelectedCategory();
+      var isAppleTV = selectedCategory === 'appletv';
+
       if (!(product in selectedProducts)) return;
+
+      if (isAppleTV) {
+        if (product === 'seguro') return;
+        if (product === 'garantia' && selectedProducts.garantia) return;
+      }
+
       selectedProducts[product] = !selectedProducts[product];
       if (selectedProducts[product]) {
         var panel = document.getElementById(product === 'seguro' ? 'coverage-panel' : 'warranty-panel');
