@@ -865,13 +865,14 @@
       @page { margin: 12mm; }
       body { background: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       header, footer, .hero-section, .no-print, #tab-guia, #tab-contacto,
-      .motor-a .accordion-step:not([data-step-key="cobertura"]), .motor-a .accordion-header,
+      .motor-a .accordion-step:not([data-step-key="cobertura"]):not([data-step-key="garantia"]), .motor-a .accordion-header,
       .motor-a .no-coverage-btn, #range-indicator { display: none !important; }
       .print-only { display: block; }
       #tab-cotizador { display: block !important; }
       #tab-cotizador > section { padding: 0 !important; }
       .motor-a { display: block !important; }
       .motor-a .card, .motor-a .summary-card { box-shadow: none !important; }
+      .motor-a .accordion-content[hidden] { display: block !important; }
       .motor-a .coverage-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
       .motor-a .coverage-card { break-inside: avoid; animation: none !important; transform: none !important; }
     }
@@ -1657,7 +1658,7 @@
     }
 
     .motor-a .coverage-info {
-      padding: 14px 16px 0;
+      padding: 0 16px 16px;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -1976,6 +1977,25 @@
       padding: 12px 14px 14px;
     }
 
+    .motor-a .accordion-step[hidden],
+    .motor-a .accordion-content[hidden] {
+      display: none;
+    }
+
+    .motor-a button.accordion-header {
+      cursor: pointer;
+    }
+
+    .motor-a button.accordion-header::after {
+      content: '−';
+      color: #FE5000;
+      font-size: 20px;
+    }
+
+    .motor-a button.accordion-header[aria-expanded="false"]::after {
+      content: '+';
+    }
+
     .motor-a .accordion-step .step-label {
       display: none;
     }
@@ -2144,7 +2164,7 @@
                   <span class="product-state">Seleccionado</span>
                 </span>
               </button>
-              <button type="button" class="product-card gar" id="tab-gar" data-product="garantia" aria-pressed="false" aria-controls="coverage-panel">
+              <button type="button" class="product-card gar" id="tab-gar" data-product="garantia" aria-pressed="false" aria-controls="warranty-panel">
                 <span class="product-card-header">
                   <span class="product-card-headrow">
                     <span class="product-card-id">
@@ -2204,10 +2224,14 @@
           </div>
 
           <div class="section" id="coverage-panel">
-            <div class="step-label"><span class="n">4</span>Cobertura</div>
+            <div class="step-label"><span class="n">4</span>Cobertura de seguro</div>
             <div class="coverage-grid" id="coverage-grid"></div>
             <input type="radio" name="coverage" value="ninguno" id="coverage-none" style="display:none">
             <button type="button" class="no-coverage-btn" id="no-coverage-btn">Continuar sin seguro</button>
+          </div>
+
+          <div class="section" id="warranty-panel">
+            <div class="step-label"><span class="n">5</span>Garantía extendida</div>
             <div id="extended-warranty-container"></div>
           </div>
 
@@ -2794,6 +2818,15 @@
 
     const PLAN_TERMS = [36, 24, 18, 12];
 
+    // Información de garantía independiente de las coberturas del seguro; permite ajustes por categoría.
+    const WARRANTY_INFO = {
+      default: {
+        cobertura: ['Averías y defectos de fábrica', 'Se activa al terminar la garantía legal del fabricante'],
+        indemnizacion: 'Condiciones de indemnización por confirmar.'
+      },
+      byDevice: {}
+    };
+
     // Única modalidad de pago del cotizador (valor interno fijo, sin control en la UI)
     const PAYMENT_MODE = 'contado';
 
@@ -2930,11 +2963,20 @@
         card.classList.toggle('active', isActive);
         card.setAttribute('aria-pressed', isActive ? 'true' : 'false');
       });
+      document.getElementById('coverage-panel').hidden = !selectedProducts.seguro;
+      document.getElementById('warranty-panel').hidden = !selectedProducts.garantia;
     }
 
     function toggleProduct(product) {
       if (!(product in selectedProducts)) return;
       selectedProducts[product] = !selectedProducts[product];
+      if (selectedProducts[product]) {
+        var panel = document.getElementById(product === 'seguro' ? 'coverage-panel' : 'warranty-panel');
+        var header = panel.querySelector('button.accordion-header');
+        var content = panel.querySelector('.accordion-content');
+        header.setAttribute('aria-expanded', 'true');
+        content.hidden = false;
+      }
 
       var coverageNoneInput = document.getElementById('coverage-none');
       var noCoverageBtn = document.getElementById('no-coverage-btn');
@@ -2998,7 +3040,7 @@
       }
 
       if (rangeIndex < 0) {
-        container.innerHTML = '';
+        container.innerHTML = '<div class="coverage-card" style="padding:20px">No hay tarifas de garantía para este precio.</div>';
         selectedWarrantyValue = null;
         return;
       }
@@ -3043,9 +3085,10 @@
         + '<div class="coverage-subtitle">Extensión de garantía del fabricante</div></div>'
         + '</div></div>'
         + '</div><div class="coverage-terms">' + rows + '</div>'
+        + buildCoverageInfoHtml(WARRANTY_INFO.byDevice[device] || WARRANTY_INFO.default)
+        + '</div>'
         + '<input type="radio" name="warranty" value="ninguna" id="warranty-none" style="display:none">'
-        + '<button type="button" class="no-coverage-btn" id="no-warranty-btn">Continuar sin garantía</button>'
-        + '</div>';
+        + '<button type="button" class="no-coverage-btn" id="no-warranty-btn">Continuar sin garantía</button>';
 
       var noWarrantyInput = document.getElementById('warranty-none');
       var noWarrantyBtn = document.getElementById('no-warranty-btn');
@@ -3138,8 +3181,8 @@
         + '<div class="coverage-subtitle">' + meta.subtitle + '</div></div>'
         + '</div></div>' + featureFlag
         + '</div>'
-        + buildCoverageInfoHtml(meta)
         + '<div class="coverage-terms">' + rows + '</div>'
+        + buildCoverageInfoHtml(meta)
         + '</div>';
     }
 
@@ -3148,11 +3191,11 @@
       if (!items.length && !meta.indemnizacion) return '';
       var coberturaHtml = items.length
         ? '<div><div class="coverage-info-title">Cobertura</div><ul>'
-          + items.map(function (item) { return '<li>' + item + '</li>'; }).join('')
+          + items.map(function (item) { return '<li>' + escapeHtml(item) + '</li>'; }).join('')
           + '</ul></div>'
         : '';
       var indemnizacionHtml = meta.indemnizacion
-        ? '<div><div class="coverage-info-title">Indemnización</div><p>' + meta.indemnizacion + '</p></div>'
+        ? '<div><div class="coverage-info-title">Indemnización</div><p>' + escapeHtml(meta.indemnizacion) + '</p></div>'
         : '';
       return '<div class="coverage-info">' + coberturaHtml + indemnizacionHtml + '</div>';
     }
@@ -3279,10 +3322,6 @@
 
       var coverageText = getCoverageSummaryText();
       var warrantyText = getWarrantySummaryText();
-      var combinedCobertura = warrantyText
-        ? (coverageText === 'Sin seguro' ? warrantyText : coverageText + ' + ' + warrantyText)
-        : coverageText;
-
       var productoText = (selectedProducts.seguro && selectedProducts.garantia)
         ? 'Seguro + Garantía Extendida'
         : selectedProducts.seguro
@@ -3295,7 +3334,8 @@
         producto: productoText,
         categoria: categoryText,
         dispositivo: devicePrice > 0 ? formatCurrency(devicePrice) : 'Pendiente',
-        cobertura: combinedCobertura
+        cobertura: coverageText,
+        garantia: warrantyText || 'Sin garantía'
       };
 
       Object.keys(summaryMap).forEach(function (key) {
@@ -3315,12 +3355,13 @@
     function setupAccordionFlow() {
       if (accordionReady) return;
 
-      var stepKeys = ['producto', 'categoria', 'dispositivo', 'cobertura'];
+      var stepKeys = ['producto', 'categoria', 'dispositivo', 'cobertura', 'garantia'];
       var stepTitles = {
         producto: 'Producto',
         categoria: 'Categoria',
         dispositivo: 'Precio',
-        cobertura: 'Cobertura'
+        cobertura: 'Cobertura de seguro',
+        garantia: 'Garantía extendida'
       };
 
       var sections = Array.prototype.slice.call(document.querySelectorAll('.motor-a .card > .section'));
@@ -3337,8 +3378,14 @@
         section.dataset.stepKey = stepKey;
         section.innerHTML = '';
 
-        var header = document.createElement('div');
+        var collapsible = stepKey === 'cobertura' || stepKey === 'garantia';
+        var header = document.createElement(collapsible ? 'button' : 'div');
         header.className = 'accordion-header';
+        if (collapsible) {
+          header.type = 'button';
+          header.setAttribute('aria-expanded', 'true');
+          header.setAttribute('aria-controls', stepKey + '-content');
+        }
         header.innerHTML =
           '<span class="accordion-main">'
           + '<span class="accordion-title">' + title + '</span>'
@@ -3347,6 +3394,13 @@
 
         var content = document.createElement('div');
         content.className = 'accordion-content';
+        if (collapsible) {
+          content.id = stepKey + '-content';
+          header.addEventListener('click', function () {
+            content.hidden = !content.hidden;
+            header.setAttribute('aria-expanded', String(!content.hidden));
+          });
+        }
         existingChildren.forEach(function (child) {
           content.appendChild(child);
         });
