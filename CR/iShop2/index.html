@@ -1240,7 +1240,7 @@
 
     .motor-a .category-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 10px;
     }
 
@@ -1807,10 +1807,6 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><rect x="7" y="7" width="10" height="10" rx="2" /><path d="M10 7V5h4v2M10 17v2h4v-2" /></svg>
                 Watch
               </button>
-              <button type="button" class="category-btn" data-cat="airpods">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3a4 4 0 00-4 4v3a3 3 0 003 3h1V7a1 1 0 012 0v4a3 3 0 01-3 3H6v4a3 3 0 003 3h1V7a3 3 0 00-3-4zM17 3a4 4 0 014 4v3a3 3 0 01-3 3h-1V7a1 1 0 00-2 0v4a3 3 0 003 3h1v4a3 3 0 01-3 3h-1V7a3 3 0 013-4z" /></svg>
-                AirPods
-              </button>
             </div>
           </div>
 
@@ -1874,11 +1870,6 @@
                 </div>
                 <div class="coverage-terms">
                   <label class="coverage-term-row">
-                    <input type="radio" name="coverage" value="robo:36">
-                    <div class="term-left"><span class="term-months">36 meses</span></div>
-                    <div class="term-right"><span class="term-monthly">$0.00<small>/mes</small></span><span class="term-total">Total: $0.00</span></div>
-                  </label>
-                  <label class="coverage-term-row">
                     <input type="radio" name="coverage" value="robo:24">
                     <div class="term-left"><span class="term-months">24 meses</span></div>
                     <div class="term-right"><span class="term-monthly">$0.00<small>/mes</small></span><span class="term-total">Total: $0.00</span></div>
@@ -1907,13 +1898,8 @@
                 </div>
                 <div class="coverage-terms">
                   <label class="coverage-term-row">
-                    <input type="radio" name="coverage" value="todoriesgo:36" checked>
-                    <div class="term-left"><span class="term-months">36 meses</span><span class="term-badge">RECOMENDADO</span></div>
-                    <div class="term-right"><span class="term-monthly">$0.00<small>/mes</small></span><span class="term-total">Total: $0.00</span></div>
-                  </label>
-                  <label class="coverage-term-row">
-                    <input type="radio" name="coverage" value="todoriesgo:24">
-                    <div class="term-left"><span class="term-months">24 meses</span></div>
+                    <input type="radio" name="coverage" value="todoriesgo:24" checked>
+                    <div class="term-left"><span class="term-months">24 meses</span><span class="term-badge">RECOMENDADO</span></div>
                     <div class="term-right"><span class="term-monthly">$0.00<small>/mes</small></span><span class="term-total">Total: $0.00</span></div>
                   </label>
                   <label class="coverage-term-row">
@@ -1938,11 +1924,6 @@
                   <div class="coverage-subtitle">Cobertura por rotura o mal funcionamiento</div>
                 </div>
                 <div class="coverage-terms">
-                  <label class="coverage-term-row">
-                    <input type="radio" name="coverage" value="danos:36">
-                    <div class="term-left"><span class="term-months">36 meses</span></div>
-                    <div class="term-right"><span class="term-monthly">$0.00<small>/mes</small></span><span class="term-total">Total: $0.00</span></div>
-                  </label>
                   <label class="coverage-term-row">
                     <input type="radio" name="coverage" value="danos:24">
                     <div class="term-left"><span class="term-months">24 meses</span></div>
@@ -2318,31 +2299,27 @@
       iphone: {
         ranges: [[250,450],[450,650],[650,900],[900,1250],[1250,1625],[1625,2000],[2000,2375],[2375,3000],[3000,3700],[3700,4800]],
         todoRiesgo: {
-          12: [80.00,130.00,185.00,195.00,280.00,355.00,430.00,520.00,587.00,685.00],
-          18: [115.00,180.00,255.00,275.00,395.00,495.00,600.00,730.00,820.00,960.00],
-          24: [130.00,205.00,290.00,310.00,450.00,565.00,690.00,835.00,940.00,1095.00],
-          36: [208.00,338.00,481.00,507.00,728.00,923.00,1118.00,1352.00,1530.00,1780.00]
+          12: [80.00,130.00,185.00,195.00,280.00,355.00,430.00,520.00,787.00,865.00],
+          18: [115.00,180.00,255.00,275.00,395.00,495.00,600.00,730.00,1105.00,1213.00],
+          24: [130.00,205.00,290.00,310.00,450.00,565.00,690.00,835.00,1263.00,1388.00]
         },
         roboHurto: {
           12: [40.00,64.00,90.00,95.00,140.00,175.00,210.00,255.00,285.00,313.00],
           18: [55.00,90.00,125.00,135.00,195.00,245.00,295.00,360.00,403.00,442.00],
-          24: [65.00,105.00,140.00,150.00,220.00,280.00,340.00,410.00,458.00,504.00],
-          36: [104.00,167.00,234.00,247.00,364.00,455.00,546.00,663.00,741.00,814.00]
+          24: [65.00,105.00,140.00,150.00,220.00,280.00,340.00,410.00,458.00,504.00]
         }
       },
       ipad: {
         ranges: [[250, 450], [450, 650], [650, 900], [900, 1250], [1250, 1625], [1625, 2000], [2000, 2375], [2375, 2625], [2625, 2875], [2875, 3125], [3125, 3500], [3500, 3875], [3875, 5000]],
         todoRiesgo: {
-          12: [50.00, 80.00, 110.00, 130.00, 170.00, 210.00, 260.00, 295.00, 325.00, 350.00, 390.00, 435.00, 570.00],
-          18: [70.00, 110.00, 155.00, 185.00, 235.00, 300.00, 360.00, 410.00, 450.00, 495.00, 545.00, 605.00, 800.00],
-          24: [80.00, 125.00, 175.00, 210.00, 270.00, 340.00, 410.00, 470.00, 515.00, 565.00, 620.00, 690.00, 915.00],
-          36: [130.00,208.00,286.00,338.00,442.00,546.00,676.00,767.00,845.00,910.00,1014.00,1131.00,1482.00]
+          12: [50, 80, 110, 130, 170, 210, 260, 295, 325, 350, 390, 435, 570],
+          18: [70, 110, 155, 185, 235, 300, 360, 410, 450, 495, 545, 605, 800],
+          24: [80, 125, 175, 210, 270, 340, 410, 470, 515, 565, 620, 690, 915]
         },
         roboHurto: {
-          12: [25.00, 40.00, 55.00, 65.00, 85.00, 105.00, 125.00, 145.00, 160.00, 175.00, 190.00, 210.00, 285.00],
-          18: [35.00, 55.00, 75.00, 90.00, 116.00, 145.00, 175.00, 200.00, 220.00, 240.00, 265.00, 295.00, 400.00],
-          24: [40.00, 60.00, 85.00, 100.00, 135.00, 170.00, 200.00, 230.00, 255.00, 275.00, 305.00, 340.00, 455.00],
-          36: [65.00,104.00,143.00,169.00,221.00,273.00,325.00,377.00,416.00,455.00,494.00,546.00,741.00]
+          12: [25, 40, 55, 65, 85, 105, 125, 145, 160, 175, 190, 210, 285],
+          18: [35, 55, 75, 90, 116, 145, 175, 200, 220, 240, 265, 295, 400],
+          24: [40, 60, 85, 100, 135, 170, 200, 230, 255, 275, 305, 340, 455]
         }
       },
       mac: {
@@ -2350,14 +2327,12 @@
         todoRiesgo: {
           12: [70, 95, 130, 215, 280, 355, 510, 615],
           18: [95, 130, 180, 305, 390, 500, 710, 865],
-          24: [110, 150, 210, 345, 450, 570, 810, 985],
-          36: [182.00,247.00,338.00,559.00,728.00,923.00,1326.00,1599.00]
+          24: [110, 150, 210, 345, 450, 570, 810, 985]
         },
         danoAccidental: {
           12: [45, 60, 75, 130, 155, 195, 280, 340],
           18: [65, 85, 110, 180, 215, 275, 390, 475],
-          24: [70, 100, 125, 210, 245, 310, 445, 540],
-          36: [117.00,156.00,195.00,338.00,403.00,507.00,728.00,884.00]
+          24: [70, 100, 125, 210, 245, 310, 445, 540]
         }
       },
       watch: {
@@ -2365,42 +2340,25 @@
         todoRiesgo: {
           12: [45, 70, 95, 110, 130],
           18: [60, 95, 135, 155, 185],
-          24: [70, 110, 155, 175, 210],
-          36: [117.00,182.00,247.00,286.00,338.00]
+          24: [70, 110, 155, 175, 210]
         },
         roboHurto: {
           12: [15, 25, 35, 45, 55],
           18: [20, 30, 45, 60, 75],
-          24: [25, 40, 50, 70, 85],
-          36: [39.00,65.00,91.00,117.00,143.00]
-        }
-      },
-      airpods: {
-        ranges: [[0,100],[100,200],[200,400],[400,600],[600,800],[800,1000]],
-        todoRiesgo: {
-          12: [21.00,38.00,69.00,105.00,142.00,178.00],
-          18: [32.00,57.00,104.00,158.00,213.00,267.00],
-          24: [38.00,69.00,125.00,189.00,256.00,321.00],
-          36: [55.00,99.00,180.00,273.00,370.00,463.00]
-        },
-        danoAccidental: {
-          12: [7.00,11.00,18.00,27.00,36.00,45.00],
-          18: [11.00,17.00,27.00,41.00,54.00,68.00],
-          24: [13.00,20.00,33.00,49.00,65.00,81.00],
-          36: [19.00,29.00,47.00,71.00,94.00,117.00]
+          24: [25, 40, 50, 70, 85]
         }
       }
     };
 
     const EXT_GARANTIA = {
-      ranges: [[0,250],[250,500],[500,1000],[1000,1500],[1500,2000],[2000,2500],[2500,3000],[3000,3500],[3500,4000],[4000,4500]],
+      ranges: [[0,250],[250,500],[500,1000],[1000,1500],[1500,2000],[2000,2500],[2500,3000],[3000,3500],[3500,4000],[4000,4800]],
       celulares: {
-        12: [14.00,27.00,33.00,40.00,47.00,50.00,60.00,70.00,80.00,90.00],
-        24: [20.00,40.00,50.00,60.00,70.00,75.00,90.00,105.00,120.00,135.00]
+        12: [14.00,27.00,33.00,40.00,47.00,50.00,80.00,85.00,88.00,89.00],
+        24: [20.00,40.00,50.00,60.00,70.00,75.00,120.00,127.00,131.00,133.00]
       },
       resto: {
         ranges: [[0,50],[50,100],[100,250],[250,500],[500,1000],[1000,1500],[1500,2000],[2000,2500],[2500,3000],[3000,5000]],
-        36: [6.00,10.00,20.00,40.00,50.00,60.00,70.00,75.00,85.00,110.00]
+        36: [6.00, 10.00, 20.00, 40.00, 50.00, 60.00, 70.00, 75.00, 85.00, 110.00]
       }
     };
 
@@ -2408,8 +2366,7 @@
       iphone: 'celulares',
       ipad: 'resto',
       mac: 'resto',
-      watch: 'resto',
-      airpods: 'resto'
+      watch: 'resto'
     };
 
     const EXT_GARANTIA_PRIMARY_TERM = {
@@ -2421,10 +2378,10 @@
      TABLAS
     **********************/
     const coverageTotals = {
-      todoriesgo: { 12: 0, 18: 0, 24: 0, 36: 0 },
-      robo: { 12: 0, 18: 0, 24: 0, 36: 0 },
-      danos: { 12: 0, 18: 0, 24: 0, 36: 0 },
-      ninguno: { 12: 0, 18: 0, 24: 0, 36: 0 }
+      todoriesgo: { 12: 0, 18: 0, 24: 0 },
+      robo: { 12: 0, 18: 0, 24: 0 },
+      danos: { 12: 0, 18: 0, 24: 0 },
+      ninguno: { 12: 0, 18: 0, 24: 0 }
     };
 
     const coverageAvailability = {
@@ -2480,7 +2437,7 @@
       var paymentInfo = getPaymentInfo();
       var garantiaInfo = getGarantiaDisplayInfo(paymentInfo);
       ['todoriesgo', 'robo', 'danos'].forEach(function (plan) {
-        [36, 24, 18, 12].forEach(function (term) {
+        [24, 18, 12].forEach(function (term) {
           var input = document.querySelector('input[name="coverage"][value="' + plan + ':' + term + '"]');
           if (!input) return;
           var row = input.closest('.coverage-term-row');
@@ -2709,10 +2666,10 @@
       if (!selected) return;
       var value = selected.value;
       if (value.indexOf('robo:') === 0 && !coverageAvailability.robo) {
-        document.querySelector('input[name="coverage"][value="todoriesgo:36"]').checked = true;
+        document.querySelector('input[name="coverage"][value="todoriesgo:24"]').checked = true;
       }
       if (value.indexOf('danos:') === 0 && !coverageAvailability.danos) {
-        document.querySelector('input[name="coverage"][value="todoriesgo:36"]').checked = true;
+        document.querySelector('input[name="coverage"][value="todoriesgo:24"]').checked = true;
       }
     }
 
@@ -2721,10 +2678,10 @@
       var devicePrice = Number(document.getElementById('device-price').value) || 0;
       var data = DB[device];
 
-      coverageTotals.todoriesgo = { 12: 0, 18: 0, 24: 0, 36: 0 };
-      coverageTotals.robo = { 12: 0, 18: 0, 24: 0, 36: 0 };
-      coverageTotals.danos = { 12: 0, 18: 0, 24: 0, 36: 0 };
-      coverageTotals.ninguno = { 12: 0, 18: 0, 24: 0, 36: 0 };
+      coverageTotals.todoriesgo = { 12: 0, 18: 0, 24: 0 };
+      coverageTotals.robo = { 12: 0, 18: 0, 24: 0 };
+      coverageTotals.danos = { 12: 0, 18: 0, 24: 0 };
+      coverageTotals.ninguno = { 12: 0, 18: 0, 24: 0 };
 
       coverageAvailability.robo = false;
       coverageAvailability.danos = false;
@@ -2745,8 +2702,7 @@
       coverageTotals.todoriesgo = {
         12: data.todoRiesgo[12][rangeIdx],
         18: data.todoRiesgo[18][rangeIdx],
-        24: data.todoRiesgo[24][rangeIdx],
-        36: data.todoRiesgo[36][rangeIdx]
+        24: data.todoRiesgo[24][rangeIdx]
       };
 
       if (data.roboHurto) {
@@ -2754,8 +2710,7 @@
         coverageTotals.robo = {
           12: data.roboHurto[12][rangeIdx],
           18: data.roboHurto[18][rangeIdx],
-          24: data.roboHurto[24][rangeIdx],
-          36: data.roboHurto[36][rangeIdx]
+          24: data.roboHurto[24][rangeIdx]
         };
       }
 
@@ -2764,8 +2719,7 @@
         coverageTotals.danos = {
           12: data.danoAccidental[12][rangeIdx],
           18: data.danoAccidental[18][rangeIdx],
-          24: data.danoAccidental[24][rangeIdx],
-          36: data.danoAccidental[36][rangeIdx]
+          24: data.danoAccidental[24][rangeIdx]
         };
       }
 
